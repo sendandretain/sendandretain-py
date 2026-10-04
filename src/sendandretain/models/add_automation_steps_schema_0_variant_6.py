@@ -1,0 +1,71 @@
+from __future__ import annotations
+
+from collections.abc import Mapping
+from typing import Any, Literal, TypeVar, cast
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
+T = TypeVar("T", bound="AddAutomationStepsSchema0Variant6")
+
+
+@_attrs_define
+class AddAutomationStepsSchema0Variant6:
+    """
+    Attributes:
+        type_ (Literal['unsubscribe']):
+        delay_seconds (int): Delay before this step runs (0 = immediate). Weekly = 604800.
+    """
+
+    type_: Literal["unsubscribe"]
+    delay_seconds: int
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+    def to_dict(self) -> dict[str, Any]:
+        type_ = self.type_
+
+        delay_seconds = self.delay_seconds
+
+        field_dict: dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "type": type_,
+                "delaySeconds": delay_seconds,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
+        type_ = cast(Literal["unsubscribe"], d.pop("type"))
+        if type_ != "unsubscribe":
+            raise ValueError(f"type must match const 'unsubscribe', got '{type_}'")
+
+        delay_seconds = d.pop("delaySeconds")
+
+        add_automation_steps_schema_0_variant_6 = cls(
+            type_=type_,
+            delay_seconds=delay_seconds,
+        )
+
+        add_automation_steps_schema_0_variant_6.additional_properties = d
+        return add_automation_steps_schema_0_variant_6
+
+    @property
+    def additional_keys(self) -> list[str]:
+        return list(self.additional_properties.keys())
+
+    def __getitem__(self, key: str) -> Any:
+        return self.additional_properties[key]
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        self.additional_properties[key] = value
+
+    def __delitem__(self, key: str) -> None:
+        del self.additional_properties[key]
+
+    def __contains__(self, key: str) -> bool:
+        return key in self.additional_properties

@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.eggs/
+
+# Environments
+.venv/
+venv/
+
+# Tooling caches
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# uv resolves fresh in CI so a library is tested against current deps
+uv.lock
+
+# verify_schema_sync.py generates a throwaway tree here (inside the repo, so
+# that ruff picks up this project's config) and removes it again
+.verify-*/
+
+# OS
+.DS_Store
