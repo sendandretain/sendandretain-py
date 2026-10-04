@@ -17,12 +17,12 @@ class AddAutomationStepsSchema0Variant5:
     Attributes:
         type_ (Literal['exit']):
         label (str | Unset): Shown on the canvas and in exit counts.
-        delay_seconds (Literal[0] | Unset): Exits are immediate — put the wait on the step before. Default: 0.
+        delay_seconds (int | Unset): Exits are immediate — put the wait on the step before. Default: 0.
     """
 
     type_: Literal["exit"]
     label: str | Unset = UNSET
-    delay_seconds: Literal[0] | Unset = 0
+    delay_seconds: int | Unset = 0
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -55,9 +55,7 @@ class AddAutomationStepsSchema0Variant5:
 
         label = d.pop("label", UNSET)
 
-        delay_seconds = cast(Literal[0] | Unset, d.pop("delaySeconds", UNSET))
-        if delay_seconds != 0 and not isinstance(delay_seconds, Unset):
-            raise ValueError(f"delaySeconds must match const 0, got '{delay_seconds}'")
+        delay_seconds = d.pop("delaySeconds", UNSET)
 
         add_automation_steps_schema_0_variant_5 = cls(
             type_=type_,

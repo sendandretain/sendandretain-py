@@ -6,52 +6,29 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
-T = TypeVar("T", bound="UpdateBrandBodyBrandLogo")
+T = TypeVar("T", bound="GetOnboardingStepsResponse200StepsItem")
 
 
 @_attrs_define
-class UpdateBrandBodyBrandLogo:
-    """
-    Attributes:
-        url (str | Unset):
-        width (int | Unset):
-    """
+class GetOnboardingStepsResponse200StepsItem:
+    """ """
 
-    url: str | Unset = UNSET
-    width: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        url = self.url
-
-        width = self.width
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if url is not UNSET:
-            field_dict["url"] = url
-        if width is not UNSET:
-            field_dict["width"] = width
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        url = d.pop("url", UNSET)
+        get_onboarding_steps_response_200_steps_item = cls()
 
-        width = d.pop("width", UNSET)
-
-        update_brand_body_brand_logo = cls(
-            url=url,
-            width=width,
-        )
-
-        update_brand_body_brand_logo.additional_properties = d
-        return update_brand_body_brand_logo
+        get_onboarding_steps_response_200_steps_item.additional_properties = d
+        return get_onboarding_steps_response_200_steps_item
 
     @property
     def additional_keys(self) -> list[str]:

@@ -44,21 +44,28 @@ export SENDANDRETAIN_API_KEY=aem_...
 client = Client()  # picks the key up from the environment
 ```
 
-### Scopes
+### Scopes and the send grant
 
-Scopes are **ranked, not orthogonal** — a key satisfies any requirement at or
-below its own tier:
+Authorization has two independent axes.
+
+The **scope** is ranked — a key satisfies any requirement at or below its own
+tier:
 
 | Scope | What it can do |
 | --- | --- |
-| `read` | See messages, contacts, templates and metrics. Never changes anything. |
-| `write` | Everything `read` does, plus **sending email** and managing contacts, templates, automations and segments. |
+| `read` | See messages, contacts, templates and metrics. Never changes anything, and cannot send. |
+| `write` | Everything `read` does, plus managing contacts, templates, automations, segments and suppressions. |
 | `admin` | Everything `write` does, plus domains, senders and workspace settings. |
 
-**Sending requires `write`.** A `read` key cannot deliver mail.
+The **send grant** is a separate boolean, not a rung. Delivering mail to a real
+inbox — `send_email`, `send_email_batch`, `reschedule_email` and
+`send_template_test` — needs `write` **and** the grant; a key can hold `admin`
+and still be refused there. The dashboard mints that combination as
+**Send + manage**; **Manage only** is the same rung with the grant withheld.
 
-A key that lacks the required scope gets `403` with a body naming both the
-scope required and the scope the key holds — not a generic denial.
+A key that falls short gets `403`, and the body says which axis refused it:
+`required_scope` / `key_scope` for the tier, or `required_grant` when the tier
+was enough but the key lacks the grant — not a generic denial.
 
 ## Quickstart
 

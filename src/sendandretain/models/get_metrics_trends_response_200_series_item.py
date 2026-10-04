@@ -18,6 +18,9 @@ class GetMetricsTrendsResponse200SeriesItem:
         day (str | Unset):
         sent (int | Unset):
         delivered (int | Unset):
+        fbl_delivered (int | Unset): Delivered to inbox providers that report spam complaints (Yahoo, Outlook/Hotmail
+            and a few others — not Gmail or iCloud). Divide `complained` by THIS, not by `sent` or `delivered`: only these
+            recipients can produce a complaint anyone hears about, so a broader denominator reads several times low.
         opened (int | Unset):
         clicked (int | Unset):
         bounced (int | Unset):
@@ -28,6 +31,7 @@ class GetMetricsTrendsResponse200SeriesItem:
     day: str | Unset = UNSET
     sent: int | Unset = UNSET
     delivered: int | Unset = UNSET
+    fbl_delivered: int | Unset = UNSET
     opened: int | Unset = UNSET
     clicked: int | Unset = UNSET
     bounced: int | Unset = UNSET
@@ -41,6 +45,8 @@ class GetMetricsTrendsResponse200SeriesItem:
         sent = self.sent
 
         delivered = self.delivered
+
+        fbl_delivered = self.fbl_delivered
 
         opened = self.opened
 
@@ -61,6 +67,8 @@ class GetMetricsTrendsResponse200SeriesItem:
             field_dict["sent"] = sent
         if delivered is not UNSET:
             field_dict["delivered"] = delivered
+        if fbl_delivered is not UNSET:
+            field_dict["fbl_delivered"] = fbl_delivered
         if opened is not UNSET:
             field_dict["opened"] = opened
         if clicked is not UNSET:
@@ -83,6 +91,8 @@ class GetMetricsTrendsResponse200SeriesItem:
 
         delivered = d.pop("delivered", UNSET)
 
+        fbl_delivered = d.pop("fbl_delivered", UNSET)
+
         opened = d.pop("opened", UNSET)
 
         clicked = d.pop("clicked", UNSET)
@@ -97,6 +107,7 @@ class GetMetricsTrendsResponse200SeriesItem:
             day=day,
             sent=sent,
             delivered=delivered,
+            fbl_delivered=fbl_delivered,
             opened=opened,
             clicked=clicked,
             bounced=bounced,

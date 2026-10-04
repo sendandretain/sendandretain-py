@@ -33,7 +33,7 @@ class UpdateAutomationStepBodyPatch:
         template_slug (str | Unset):
         props_overrides (UpdateAutomationStepBodyPatchPropsOverrides | Unset):
         subject (None | str | Unset): Send steps: per-step subject override ({{vars}} ok); null clears.
-        preview_text (None | str | Unset): Send steps: per-step inbox preview text; null clears.
+        preview_text (None | str | Unset): Send steps: per-step inbox preview text ({{vars}} ok); null clears.
         event_name (str | Unset):
         timeout_seconds (int | Unset):
         filter_ (list[AutomationsStepsPutRequestBodyContentApplicationJsonPatchFilterVariant0Item] | Unset |

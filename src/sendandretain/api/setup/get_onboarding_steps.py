@@ -6,7 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error import Error
-from ...models.get_brand_response_200 import GetBrandResponse200
+from ...models.get_onboarding_steps_response_200 import GetOnboardingStepsResponse200
 from ...types import Response
 
 
@@ -14,7 +14,7 @@ def _get_kwargs() -> dict[str, Any]:
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/v1/brand",
+        "url": "/api/v1/setup/onboarding",
     }
 
     return _kwargs
@@ -22,9 +22,9 @@ def _get_kwargs() -> dict[str, Any]:
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Error | GetBrandResponse200 | None:
+) -> Error | GetOnboardingStepsResponse200 | None:
     if response.status_code == 200:
-        response_200 = GetBrandResponse200.from_dict(response.json())
+        response_200 = GetOnboardingStepsResponse200.from_dict(response.json())
 
         return response_200
 
@@ -51,7 +51,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[Error | GetBrandResponse200]:
+) -> Response[Error | GetOnboardingStepsResponse200]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -63,19 +63,23 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-) -> Response[Error | GetBrandResponse200]:
-    """Get the brand kit
+) -> Response[Error | GetOnboardingStepsResponse200]:
+    """How far through setup is this company?
 
-     The COMPANY's identity — logo, colors, fonts, voice, sign-off, footer address — plus the freeform
-    brief. Template authoring reads this, so keeping it current is what makes generated email look like
-    the company.
+     The ten steps of getting a company live, with the same addresses (`1.1`–`3.5`) and titles the
+    operator sees in the dashboard. Every `done` is derived from real rows — there is no stored
+    checklist — so work done through this API, over MCP or by hand all move the same list.
+
+    Distinct from `GET /api/v1/connection`, which answers the narrower deploy-time question 'can this
+    project send right now'. This one also covers the discovery answers, the approved programme and
+    whether the company has sent.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Error | GetBrandResponse200]
+        Response[Error | GetOnboardingStepsResponse200]
     """
 
     kwargs = _get_kwargs()
@@ -90,19 +94,23 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-) -> Error | GetBrandResponse200 | None:
-    """Get the brand kit
+) -> Error | GetOnboardingStepsResponse200 | None:
+    """How far through setup is this company?
 
-     The COMPANY's identity — logo, colors, fonts, voice, sign-off, footer address — plus the freeform
-    brief. Template authoring reads this, so keeping it current is what makes generated email look like
-    the company.
+     The ten steps of getting a company live, with the same addresses (`1.1`–`3.5`) and titles the
+    operator sees in the dashboard. Every `done` is derived from real rows — there is no stored
+    checklist — so work done through this API, over MCP or by hand all move the same list.
+
+    Distinct from `GET /api/v1/connection`, which answers the narrower deploy-time question 'can this
+    project send right now'. This one also covers the discovery answers, the approved programme and
+    whether the company has sent.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Error | GetBrandResponse200
+        Error | GetOnboardingStepsResponse200
     """
 
     return sync_detailed(
@@ -113,19 +121,23 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-) -> Response[Error | GetBrandResponse200]:
-    """Get the brand kit
+) -> Response[Error | GetOnboardingStepsResponse200]:
+    """How far through setup is this company?
 
-     The COMPANY's identity — logo, colors, fonts, voice, sign-off, footer address — plus the freeform
-    brief. Template authoring reads this, so keeping it current is what makes generated email look like
-    the company.
+     The ten steps of getting a company live, with the same addresses (`1.1`–`3.5`) and titles the
+    operator sees in the dashboard. Every `done` is derived from real rows — there is no stored
+    checklist — so work done through this API, over MCP or by hand all move the same list.
+
+    Distinct from `GET /api/v1/connection`, which answers the narrower deploy-time question 'can this
+    project send right now'. This one also covers the discovery answers, the approved programme and
+    whether the company has sent.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Error | GetBrandResponse200]
+        Response[Error | GetOnboardingStepsResponse200]
     """
 
     kwargs = _get_kwargs()
@@ -138,19 +150,23 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-) -> Error | GetBrandResponse200 | None:
-    """Get the brand kit
+) -> Error | GetOnboardingStepsResponse200 | None:
+    """How far through setup is this company?
 
-     The COMPANY's identity — logo, colors, fonts, voice, sign-off, footer address — plus the freeform
-    brief. Template authoring reads this, so keeping it current is what makes generated email look like
-    the company.
+     The ten steps of getting a company live, with the same addresses (`1.1`–`3.5`) and titles the
+    operator sees in the dashboard. Every `done` is derived from real rows — there is no stored
+    checklist — so work done through this API, over MCP or by hand all move the same list.
+
+    Distinct from `GET /api/v1/connection`, which answers the narrower deploy-time question 'can this
+    project send right now'. This one also covers the discovery answers, the approved programme and
+    whether the company has sent.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Error | GetBrandResponse200
+        Error | GetOnboardingStepsResponse200
     """
 
     return (

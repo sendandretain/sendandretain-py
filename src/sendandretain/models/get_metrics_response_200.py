@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Any, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.get_metrics_response_200_source import GetMetricsResponse200Source
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
@@ -27,7 +28,13 @@ class GetMetricsResponse200:
         by_template (GetMetricsResponse200ByTemplate | Unset): Keyed by template slug.
         by_day (GetMetricsResponse200ByDay | Unset): Keyed by YYYY-MM-DD.
         warnings (list[str] | Unset): Deliverability tripwires, phrased as actions.
-        truncated (bool | Unset): True when the window hit the query cap — narrow it for exact numbers.
+        truncated (bool | Unset): True when the window hit the query cap — narrow it for exact numbers. Always false
+            when `source` is `daily_rollup`, which is pre-aggregated and has no cap to hit.
+        source (GetMetricsResponse200Source | Unset): Which engine answered. `raw` reads the message log directly and is
+            exact to the second. `daily_rollup` is used once `since` reaches past the 30-day log retention window, past
+            which the individual rows no longer exist — it is aggregated to whole UTC days, so `period` reports the snapped
+            window rather than the one you asked for, and a warning says so. One engine always answers the whole range; the
+            two are never mixed.
     """
 
     period: GetMetricsResponse200Period | Unset = UNSET
@@ -36,6 +43,7 @@ class GetMetricsResponse200:
     by_day: GetMetricsResponse200ByDay | Unset = UNSET
     warnings: list[str] | Unset = UNSET
     truncated: bool | Unset = UNSET
+    source: GetMetricsResponse200Source | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -61,6 +69,10 @@ class GetMetricsResponse200:
 
         truncated = self.truncated
 
+        source: str | Unset = UNSET
+        if not isinstance(self.source, Unset):
+            source = self.source.value
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -76,6 +88,8 @@ class GetMetricsResponse200:
             field_dict["warnings"] = warnings
         if truncated is not UNSET:
             field_dict["truncated"] = truncated
+        if source is not UNSET:
+            field_dict["source"] = source
 
         return field_dict
 
@@ -119,6 +133,13 @@ class GetMetricsResponse200:
 
         truncated = d.pop("truncated", UNSET)
 
+        _source = d.pop("source", UNSET)
+        source: GetMetricsResponse200Source | Unset
+        if isinstance(_source, Unset):
+            source = UNSET
+        else:
+            source = GetMetricsResponse200Source(_source)
+
         get_metrics_response_200 = cls(
             period=period,
             totals=totals,
@@ -126,6 +147,7 @@ class GetMetricsResponse200:
             by_day=by_day,
             warnings=warnings,
             truncated=truncated,
+            source=source,
         )
 
         get_metrics_response_200.additional_properties = d

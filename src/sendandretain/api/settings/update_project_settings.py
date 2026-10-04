@@ -48,6 +48,11 @@ def _parse_response(
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+        return response_403
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -74,10 +79,10 @@ def sync_detailed(
 
      `sends_paused: true` stops **all** sending for this project — API, automations and copilot alike —
     and is re-checked on the worker path, so it stops queued mail too, not just new calls. Because of
-    that it requires `confirm: true`; resuming does not. `utm` configures auto UTM tagging: set the
-    params once and every external link in outgoing emails carries them. `default_locale` is the
-    fallback used to pick a template translation when neither the send call nor the contact carries a
-    locale (null = the base template language). Requires an `admin`-scope key.
+    that it requires `confirm: true`; resuming does not. `utm` configures auto UTM tagging, which is
+    **already on** with sensible defaults: send it only to change the params or to switch tagging off.
+    `default_locale` is the fallback used to pick a template translation when neither the send call nor
+    the contact carries a locale (null = the base template language). Requires an `admin`-scope key.
 
     Args:
         body (UpdateProjectSettingsBody):
@@ -110,10 +115,10 @@ def sync(
 
      `sends_paused: true` stops **all** sending for this project — API, automations and copilot alike —
     and is re-checked on the worker path, so it stops queued mail too, not just new calls. Because of
-    that it requires `confirm: true`; resuming does not. `utm` configures auto UTM tagging: set the
-    params once and every external link in outgoing emails carries them. `default_locale` is the
-    fallback used to pick a template translation when neither the send call nor the contact carries a
-    locale (null = the base template language). Requires an `admin`-scope key.
+    that it requires `confirm: true`; resuming does not. `utm` configures auto UTM tagging, which is
+    **already on** with sensible defaults: send it only to change the params or to switch tagging off.
+    `default_locale` is the fallback used to pick a template translation when neither the send call nor
+    the contact carries a locale (null = the base template language). Requires an `admin`-scope key.
 
     Args:
         body (UpdateProjectSettingsBody):
@@ -141,10 +146,10 @@ async def asyncio_detailed(
 
      `sends_paused: true` stops **all** sending for this project — API, automations and copilot alike —
     and is re-checked on the worker path, so it stops queued mail too, not just new calls. Because of
-    that it requires `confirm: true`; resuming does not. `utm` configures auto UTM tagging: set the
-    params once and every external link in outgoing emails carries them. `default_locale` is the
-    fallback used to pick a template translation when neither the send call nor the contact carries a
-    locale (null = the base template language). Requires an `admin`-scope key.
+    that it requires `confirm: true`; resuming does not. `utm` configures auto UTM tagging, which is
+    **already on** with sensible defaults: send it only to change the params or to switch tagging off.
+    `default_locale` is the fallback used to pick a template translation when neither the send call nor
+    the contact carries a locale (null = the base template language). Requires an `admin`-scope key.
 
     Args:
         body (UpdateProjectSettingsBody):
@@ -175,10 +180,10 @@ async def asyncio(
 
      `sends_paused: true` stops **all** sending for this project — API, automations and copilot alike —
     and is re-checked on the worker path, so it stops queued mail too, not just new calls. Because of
-    that it requires `confirm: true`; resuming does not. `utm` configures auto UTM tagging: set the
-    params once and every external link in outgoing emails carries them. `default_locale` is the
-    fallback used to pick a template translation when neither the send call nor the contact carries a
-    locale (null = the base template language). Requires an `admin`-scope key.
+    that it requires `confirm: true`; resuming does not. `utm` configures auto UTM tagging, which is
+    **already on** with sensible defaults: send it only to change the params or to switch tagging off.
+    `default_locale` is the fallback used to pick a template translation when neither the send call nor
+    the contact carries a locale (null = the base template language). Requires an `admin`-scope key.
 
     Args:
         body (UpdateProjectSettingsBody):

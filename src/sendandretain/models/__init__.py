@@ -150,6 +150,9 @@ from .emit_event_response_202_status import EmitEventResponse202Status
 from .error import Error
 from .error_error import ErrorError
 from .error_error_code import ErrorErrorCode
+from .error_error_key_scope import ErrorErrorKeyScope
+from .error_error_required_grant import ErrorErrorRequiredGrant
+from .error_error_required_scope import ErrorErrorRequiredScope
 from .event_result import EventResult
 from .event_result_skipped_item import EventResultSkippedItem
 from .event_result_skipped_item_reason import EventResultSkippedItemReason
@@ -175,10 +178,13 @@ from .get_metrics_response_200 import GetMetricsResponse200
 from .get_metrics_response_200_by_day import GetMetricsResponse200ByDay
 from .get_metrics_response_200_by_template import GetMetricsResponse200ByTemplate
 from .get_metrics_response_200_period import GetMetricsResponse200Period
+from .get_metrics_response_200_source import GetMetricsResponse200Source
 from .get_metrics_response_200_totals import GetMetricsResponse200Totals
 from .get_metrics_trends_response_200 import GetMetricsTrendsResponse200
 from .get_metrics_trends_response_200_series_item import GetMetricsTrendsResponse200SeriesItem
 from .get_metrics_trends_response_200_totals import GetMetricsTrendsResponse200Totals
+from .get_onboarding_steps_response_200 import GetOnboardingStepsResponse200
+from .get_onboarding_steps_response_200_steps_item import GetOnboardingStepsResponse200StepsItem
 from .get_project_settings_response_200 import GetProjectSettingsResponse200
 from .get_project_settings_response_200_utm_type_0 import GetProjectSettingsResponse200UtmType0
 from .get_queue_health_response_200 import GetQueueHealthResponse200
@@ -464,6 +470,9 @@ __all__ = (
     "Error",
     "ErrorError",
     "ErrorErrorCode",
+    "ErrorErrorKeyScope",
+    "ErrorErrorRequiredGrant",
+    "ErrorErrorRequiredScope",
     "EventResult",
     "EventResultSkippedItem",
     "EventResultSkippedItemReason",
@@ -487,10 +496,13 @@ __all__ = (
     "GetMetricsResponse200ByDay",
     "GetMetricsResponse200ByTemplate",
     "GetMetricsResponse200Period",
+    "GetMetricsResponse200Source",
     "GetMetricsResponse200Totals",
     "GetMetricsTrendsResponse200",
     "GetMetricsTrendsResponse200SeriesItem",
     "GetMetricsTrendsResponse200Totals",
+    "GetOnboardingStepsResponse200",
+    "GetOnboardingStepsResponse200StepsItem",
     "GetProjectSettingsResponse200",
     "GetProjectSettingsResponse200UtmType0",
     "GetQueueHealthResponse200",

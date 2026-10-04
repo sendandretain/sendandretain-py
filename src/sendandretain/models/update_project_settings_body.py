@@ -23,10 +23,11 @@ class UpdateProjectSettingsBody:
     Attributes:
         sends_paused (bool | Unset): The kill switch. `true` stops ALL sending for this project.
         daily_send_cap (int | Unset): Self-imposed daily ceiling. 0 = rely on the provider plan limit.
-        utm (None | SettingsPatchRequestBodyContentApplicationJsonUtmVariant0 | Unset): Auto UTM tagging. When enabled,
-            `params` are appended to every external link in outgoing emails (existing URL params always win). Values may
-            embed {{automation}}, {{step}}, {{template}}, {{variant}}, {{source}} — resolved per send, slugified, and
-            omitted when empty. Max 10 params, lowercase snake_case keys. `null` clears the config.
+        utm (None | SettingsPatchRequestBodyContentApplicationJsonUtmVariant0 | Unset): Auto UTM tagging, **on by
+            default**. `params` are appended to every external link in outgoing emails (existing URL params always win).
+            Values may embed {{automation}}, {{step}}, {{template}}, {{variant}}, {{source}} — resolved per send, slugified,
+            and omitted when empty. Max 10 params, lowercase snake_case keys. Send `{ "enabled": false, "params": {} }` to
+            switch tagging off; `null` clears your override and restores the defaults.
         default_locale (None | str | Unset): Fallback locale for template translation picks (tag like `fr` or `pt-BR`)
             when neither the send call nor the contact carries one. `null` clears it — sends fall back to the base template
             language.

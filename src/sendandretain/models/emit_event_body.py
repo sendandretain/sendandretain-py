@@ -25,7 +25,10 @@ class EmitEventBody:
         email (str | Unset): Identifies the contact; creates it if unknown. Provide this or external_id.
         external_id (str | Unset): Identifies an existing contact by your id. Provide this or email.
         properties (EmitEventBodyProperties | Unset): Event properties — available to automation trigger filters.
-        dedupe_key (str | Unset): Idempotency key for this event. A repeat is a no-op.
+        dedupe_key (str | Unset): Idempotency key for this event. A repeat is a no-op for 30 days — the retention window
+            on the event log. Past that the event row is pruned and its key becomes free again, so a replay of a genuinely
+            old event is accepted as new. Automations are unaffected either way: enrolment is guarded by the run history,
+            which is never pruned.
         occurred_at (datetime.datetime | Unset): ISO 8601 timestamp (with offset) of when the event happened.
         contact_attributes (EmitEventBodyContactAttributes | Unset): Attributes to upsert onto the contact alongside the
             event.
