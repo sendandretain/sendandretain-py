@@ -165,7 +165,7 @@ def backoff_seconds(attempt: int, retry_after: str | None) -> float:
             return min(max(float(retry_after), 0.0), 60.0)
         except ValueError:
             pass
-    ceiling = min(0.5 * 2 ** (attempt - 1), 8.0)
+    ceiling = min(0.5 * float(2 ** (attempt - 1)), 8.0)
     return ceiling / 2 + _random.random() * (ceiling / 2)
 
 
@@ -274,7 +274,7 @@ class AsyncRetryTransport(httpx.AsyncBaseTransport):
         await self._inner.aclose()
 
 
-def iterate_pages(fetch_page: Callable[[str | None], dict]) -> Iterator[dict]:
+def iterate_pages(fetch_page: Callable[[str | None], dict[str, object]]) -> Iterator[object]:
     """Yield every row of a list, following ``next_cursor``.
 
     ``fetch_page`` takes the cursor (None for the first page) and returns the
@@ -283,7 +283,9 @@ def iterate_pages(fetch_page: Callable[[str | None], dict]) -> Iterator[dict]:
     cursor: str | None = None
     while True:
         page = fetch_page(cursor)
-        yield from page.get("data") or []
-        cursor = page.get("next_cursor")
+        rows = page.get("data")
+        yield from rows if isinstance(rows, list) else []
+        nxt = page.get("next_cursor")
+        cursor = nxt if isinstance(nxt, str) else None
         if not page.get("has_more") or not cursor:
             return
