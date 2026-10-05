@@ -8,14 +8,17 @@ from ...client import AuthenticatedClient, Client
 from ...models.create_automation_body import CreateAutomationBody
 from ...models.create_automation_response_201 import CreateAutomationResponse201
 from ...models.error import Error
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     *,
     body: CreateAutomationBody,
+    idempotency_key: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
+    if not isinstance(idempotency_key, Unset):
+        headers["Idempotency-Key"] = idempotency_key
 
     _kwargs: dict[str, Any] = {
         "method": "post",
@@ -53,6 +56,16 @@ def _parse_response(
 
         return response_403
 
+    if response.status_code == 409:
+        response_409 = Error.from_dict(response.json())
+
+        return response_409
+
+    if response.status_code == 429:
+        response_429 = Error.from_dict(response.json())
+
+        return response_429
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -72,17 +85,19 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: CreateAutomationBody,
+    idempotency_key: str | Unset = UNSET,
 ) -> Response[CreateAutomationResponse201 | Error]:
     """Create an automation
 
-     Creates a trigger-driven sequence, optionally with its steps. **Always created paused** — enabling
+     Creates a trigger-driven automation, optionally with its steps. **Always created paused** — enabling
     is a separate, deliberate call (`POST /api/v1/automations/{id}/status`) so a programmatic mistake
     can never start sending. Step objects are camelCase (they reuse the internal step schema); the
     surrounding body is snake_case like the rest of the API.
 
     Args:
+        idempotency_key (str | Unset):
         body (CreateAutomationBody):
 
     Raises:
@@ -95,6 +110,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         body=body,
+        idempotency_key=idempotency_key,
     )
 
     response = client.get_httpx_client().request(
@@ -106,17 +122,19 @@ def sync_detailed(
 
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: CreateAutomationBody,
+    idempotency_key: str | Unset = UNSET,
 ) -> CreateAutomationResponse201 | Error | None:
     """Create an automation
 
-     Creates a trigger-driven sequence, optionally with its steps. **Always created paused** — enabling
+     Creates a trigger-driven automation, optionally with its steps. **Always created paused** — enabling
     is a separate, deliberate call (`POST /api/v1/automations/{id}/status`) so a programmatic mistake
     can never start sending. Step objects are camelCase (they reuse the internal step schema); the
     surrounding body is snake_case like the rest of the API.
 
     Args:
+        idempotency_key (str | Unset):
         body (CreateAutomationBody):
 
     Raises:
@@ -130,22 +148,25 @@ def sync(
     return sync_detailed(
         client=client,
         body=body,
+        idempotency_key=idempotency_key,
     ).parsed
 
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: CreateAutomationBody,
+    idempotency_key: str | Unset = UNSET,
 ) -> Response[CreateAutomationResponse201 | Error]:
     """Create an automation
 
-     Creates a trigger-driven sequence, optionally with its steps. **Always created paused** — enabling
+     Creates a trigger-driven automation, optionally with its steps. **Always created paused** — enabling
     is a separate, deliberate call (`POST /api/v1/automations/{id}/status`) so a programmatic mistake
     can never start sending. Step objects are camelCase (they reuse the internal step schema); the
     surrounding body is snake_case like the rest of the API.
 
     Args:
+        idempotency_key (str | Unset):
         body (CreateAutomationBody):
 
     Raises:
@@ -158,6 +179,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         body=body,
+        idempotency_key=idempotency_key,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -167,17 +189,19 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: CreateAutomationBody,
+    idempotency_key: str | Unset = UNSET,
 ) -> CreateAutomationResponse201 | Error | None:
     """Create an automation
 
-     Creates a trigger-driven sequence, optionally with its steps. **Always created paused** — enabling
+     Creates a trigger-driven automation, optionally with its steps. **Always created paused** — enabling
     is a separate, deliberate call (`POST /api/v1/automations/{id}/status`) so a programmatic mistake
     can never start sending. Step objects are camelCase (they reuse the internal step schema); the
     surrounding body is snake_case like the rest of the API.
 
     Args:
+        idempotency_key (str | Unset):
         body (CreateAutomationBody):
 
     Raises:
@@ -192,5 +216,6 @@ async def asyncio(
         await asyncio_detailed(
             client=client,
             body=body,
+            idempotency_key=idempotency_key,
         )
     ).parsed

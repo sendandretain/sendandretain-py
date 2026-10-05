@@ -58,6 +58,11 @@ def _parse_response(
 
         return response_404
 
+    if response.status_code == 429:
+        response_429 = Error.from_dict(response.json())
+
+        return response_429
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -77,7 +82,7 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: MoveAutomationStepBody,
 ) -> Response[Error | MoveAutomationStepResponse200]:
     """Reorder a step
@@ -109,7 +114,7 @@ def sync_detailed(
 
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: MoveAutomationStepBody,
 ) -> Error | MoveAutomationStepResponse200 | None:
     """Reorder a step
@@ -136,7 +141,7 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: MoveAutomationStepBody,
 ) -> Response[Error | MoveAutomationStepResponse200]:
     """Reorder a step
@@ -166,7 +171,7 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: MoveAutomationStepBody,
 ) -> Error | MoveAutomationStepResponse200 | None:
     """Reorder a step

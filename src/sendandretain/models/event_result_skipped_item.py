@@ -18,7 +18,7 @@ class EventResultSkippedItem:
     Attributes:
         automation_id (str | Unset):
         reason (EventResultSkippedItemReason | Unset): `filtered` — the trigger filter excluded this contact. `guarded`
-            — they have already been through this flow. `suppressed` — they opted out. `exclusive` — a higher-priority
+            — they have already been through this automation. `suppressed` — they opted out. `exclusive` — a higher-priority
             exclusive automation took them. `no_steps` — the automation has no steps. `already_running` — a run is already
             in flight.
     """

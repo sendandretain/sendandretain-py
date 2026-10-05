@@ -53,6 +53,11 @@ def _parse_response(
 
         return response_404
 
+    if response.status_code == 429:
+        response_429 = Error.from_dict(response.json())
+
+        return response_429
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -73,7 +78,7 @@ def _build_response(
 def sync_detailed(
     slug: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> Response[Error | UnpublishTemplateResponse200]:
     """Unpublish a template
 
@@ -108,7 +113,7 @@ def sync_detailed(
 def sync(
     slug: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> Error | UnpublishTemplateResponse200 | None:
     """Unpublish a template
 
@@ -138,7 +143,7 @@ def sync(
 async def asyncio_detailed(
     slug: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> Response[Error | UnpublishTemplateResponse200]:
     """Unpublish a template
 
@@ -171,7 +176,7 @@ async def asyncio_detailed(
 async def asyncio(
     slug: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> Error | UnpublishTemplateResponse200 | None:
     """Unpublish a template
 

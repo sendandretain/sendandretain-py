@@ -8,12 +8,17 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.duplicate_automation_response_201 import DuplicateAutomationResponse201
 from ...models.error import Error
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     id: str,
+    *,
+    idempotency_key: str | Unset = UNSET,
 ) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
+    if not isinstance(idempotency_key, Unset):
+        headers["Idempotency-Key"] = idempotency_key
 
     _kwargs: dict[str, Any] = {
         "method": "post",
@@ -22,6 +27,7 @@ def _get_kwargs(
         ),
     }
 
+    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -48,6 +54,16 @@ def _parse_response(
 
         return response_404
 
+    if response.status_code == 409:
+        response_409 = Error.from_dict(response.json())
+
+        return response_409
+
+    if response.status_code == 429:
+        response_429 = Error.from_dict(response.json())
+
+        return response_429
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -68,7 +84,8 @@ def _build_response(
 def sync_detailed(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
+    idempotency_key: str | Unset = UNSET,
 ) -> Response[DuplicateAutomationResponse201 | Error]:
     """Duplicate an automation
 
@@ -77,6 +94,7 @@ def sync_detailed(
 
     Args:
         id (str):
+        idempotency_key (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -88,6 +106,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+        idempotency_key=idempotency_key,
     )
 
     response = client.get_httpx_client().request(
@@ -100,7 +119,8 @@ def sync_detailed(
 def sync(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
+    idempotency_key: str | Unset = UNSET,
 ) -> DuplicateAutomationResponse201 | Error | None:
     """Duplicate an automation
 
@@ -109,6 +129,7 @@ def sync(
 
     Args:
         id (str):
+        idempotency_key (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -121,13 +142,15 @@ def sync(
     return sync_detailed(
         id=id,
         client=client,
+        idempotency_key=idempotency_key,
     ).parsed
 
 
 async def asyncio_detailed(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
+    idempotency_key: str | Unset = UNSET,
 ) -> Response[DuplicateAutomationResponse201 | Error]:
     """Duplicate an automation
 
@@ -136,6 +159,7 @@ async def asyncio_detailed(
 
     Args:
         id (str):
+        idempotency_key (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -147,6 +171,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+        idempotency_key=idempotency_key,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -157,7 +182,8 @@ async def asyncio_detailed(
 async def asyncio(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
+    idempotency_key: str | Unset = UNSET,
 ) -> DuplicateAutomationResponse201 | Error | None:
     """Duplicate an automation
 
@@ -166,6 +192,7 @@ async def asyncio(
 
     Args:
         id (str):
+        idempotency_key (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -179,5 +206,6 @@ async def asyncio(
         await asyncio_detailed(
             id=id,
             client=client,
+            idempotency_key=idempotency_key,
         )
     ).parsed

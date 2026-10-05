@@ -15,6 +15,7 @@ def _get_kwargs(
     *,
     reason: ListSuppressionsReason | Unset = UNSET,
     limit: int | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -26,6 +27,8 @@ def _get_kwargs(
     params["reason"] = json_reason
 
     params["limit"] = limit
+
+    params["cursor"] = cursor
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -56,6 +59,11 @@ def _parse_response(
 
         return response_403
 
+    if response.status_code == 429:
+        response_429 = Error.from_dict(response.json())
+
+        return response_429
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -75,9 +83,10 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     reason: ListSuppressionsReason | Unset = UNSET,
     limit: int | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> Response[Error | ListSuppressionsResponse200]:
     """List suppressions
 
@@ -86,6 +95,7 @@ def sync_detailed(
     Args:
         reason (ListSuppressionsReason | Unset):
         limit (int | Unset):
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -98,6 +108,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         reason=reason,
         limit=limit,
+        cursor=cursor,
     )
 
     response = client.get_httpx_client().request(
@@ -109,9 +120,10 @@ def sync_detailed(
 
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     reason: ListSuppressionsReason | Unset = UNSET,
     limit: int | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> Error | ListSuppressionsResponse200 | None:
     """List suppressions
 
@@ -120,6 +132,7 @@ def sync(
     Args:
         reason (ListSuppressionsReason | Unset):
         limit (int | Unset):
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -133,14 +146,16 @@ def sync(
         client=client,
         reason=reason,
         limit=limit,
+        cursor=cursor,
     ).parsed
 
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     reason: ListSuppressionsReason | Unset = UNSET,
     limit: int | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> Response[Error | ListSuppressionsResponse200]:
     """List suppressions
 
@@ -149,6 +164,7 @@ async def asyncio_detailed(
     Args:
         reason (ListSuppressionsReason | Unset):
         limit (int | Unset):
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -161,6 +177,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         reason=reason,
         limit=limit,
+        cursor=cursor,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -170,9 +187,10 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     reason: ListSuppressionsReason | Unset = UNSET,
     limit: int | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> Error | ListSuppressionsResponse200 | None:
     """List suppressions
 
@@ -181,6 +199,7 @@ async def asyncio(
     Args:
         reason (ListSuppressionsReason | Unset):
         limit (int | Unset):
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -195,5 +214,6 @@ async def asyncio(
             client=client,
             reason=reason,
             limit=limit,
+            cursor=cursor,
         )
     ).parsed

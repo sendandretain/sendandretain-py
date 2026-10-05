@@ -58,6 +58,11 @@ def _parse_response(
 
         return response_404
 
+    if response.status_code == 429:
+        response_429 = Error.from_dict(response.json())
+
+        return response_429
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -77,13 +82,13 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: SyncAutomationStepPropsBody,
 ) -> Response[Error | SyncAutomationStepPropsResponse200]:
     """Bulk-set step props
 
      Refreshes `props_overrides` across send steps by position — the content-pipeline path for a
-    recurring sequence whose copy changes per edition. `merge: true` shallow-merges into the existing
+    recurring automation whose copy changes per edition. `merge: true` shallow-merges into the existing
     overrides instead of replacing them.
 
     Args:
@@ -110,13 +115,13 @@ def sync_detailed(
 
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: SyncAutomationStepPropsBody,
 ) -> Error | SyncAutomationStepPropsResponse200 | None:
     """Bulk-set step props
 
      Refreshes `props_overrides` across send steps by position — the content-pipeline path for a
-    recurring sequence whose copy changes per edition. `merge: true` shallow-merges into the existing
+    recurring automation whose copy changes per edition. `merge: true` shallow-merges into the existing
     overrides instead of replacing them.
 
     Args:
@@ -138,13 +143,13 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: SyncAutomationStepPropsBody,
 ) -> Response[Error | SyncAutomationStepPropsResponse200]:
     """Bulk-set step props
 
      Refreshes `props_overrides` across send steps by position — the content-pipeline path for a
-    recurring sequence whose copy changes per edition. `merge: true` shallow-merges into the existing
+    recurring automation whose copy changes per edition. `merge: true` shallow-merges into the existing
     overrides instead of replacing them.
 
     Args:
@@ -169,13 +174,13 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: SyncAutomationStepPropsBody,
 ) -> Error | SyncAutomationStepPropsResponse200 | None:
     """Bulk-set step props
 
      Refreshes `props_overrides` across send steps by position — the content-pipeline path for a
-    recurring sequence whose copy changes per edition. `merge: true` shallow-merges into the existing
+    recurring automation whose copy changes per edition. `merge: true` shallow-merges into the existing
     overrides instead of replacing them.
 
     Args:

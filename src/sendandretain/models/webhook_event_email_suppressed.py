@@ -1,0 +1,112 @@
+from __future__ import annotations
+
+import datetime
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
+from ..models.webhook_event_email_suppressed_type import WebhookEventEmailSuppressedType
+from ..models.webhook_event_email_suppressed_version import WebhookEventEmailSuppressedVersion
+
+if TYPE_CHECKING:
+    from ..models.webhook_event_email_suppressed_data import WebhookEventEmailSuppressedData
+
+
+T = TypeVar("T", bound="WebhookEventEmailSuppressed")
+
+
+@_attrs_define
+class WebhookEventEmailSuppressed:
+    """The send was refused because the address is suppressed.
+
+    Attributes:
+        id (str): The delivery id — also sent as `webhook-id`. Dedupe on it.
+        type_ (WebhookEventEmailSuppressedType):
+        version (WebhookEventEmailSuppressedVersion):
+        created_at (datetime.datetime): When we queued it.
+        occurred_at (datetime.datetime): When it happened. Order on this, never on arrival.
+        data (WebhookEventEmailSuppressedData):
+    """
+
+    id: str
+    type_: WebhookEventEmailSuppressedType
+    version: WebhookEventEmailSuppressedVersion
+    created_at: datetime.datetime
+    occurred_at: datetime.datetime
+    data: WebhookEventEmailSuppressedData
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+    def to_dict(self) -> dict[str, Any]:
+        id = self.id
+
+        type_ = self.type_.value
+
+        version = self.version.value
+
+        created_at = self.created_at.isoformat()
+
+        occurred_at = self.occurred_at.isoformat()
+
+        data = self.data.to_dict()
+
+        field_dict: dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update(
+            {
+                "id": id,
+                "type": type_,
+                "version": version,
+                "created_at": created_at,
+                "occurred_at": occurred_at,
+                "data": data,
+            }
+        )
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.webhook_event_email_suppressed_data import WebhookEventEmailSuppressedData
+
+        d = dict(src_dict)
+        id = d.pop("id")
+
+        type_ = WebhookEventEmailSuppressedType(d.pop("type"))
+
+        version = WebhookEventEmailSuppressedVersion(d.pop("version"))
+
+        created_at = datetime.datetime.fromisoformat(d.pop("created_at"))
+
+        occurred_at = datetime.datetime.fromisoformat(d.pop("occurred_at"))
+
+        data = WebhookEventEmailSuppressedData.from_dict(d.pop("data"))
+
+        webhook_event_email_suppressed = cls(
+            id=id,
+            type_=type_,
+            version=version,
+            created_at=created_at,
+            occurred_at=occurred_at,
+            data=data,
+        )
+
+        webhook_event_email_suppressed.additional_properties = d
+        return webhook_event_email_suppressed
+
+    @property
+    def additional_keys(self) -> list[str]:
+        return list(self.additional_properties.keys())
+
+    def __getitem__(self, key: str) -> Any:
+        return self.additional_properties[key]
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        self.additional_properties[key] = value
+
+    def __delitem__(self, key: str) -> None:
+        del self.additional_properties[key]
+
+    def __contains__(self, key: str) -> bool:
+        return key in self.additional_properties

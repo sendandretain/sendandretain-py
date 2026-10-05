@@ -48,6 +48,11 @@ def _parse_response(
 
         return response_404
 
+    if response.status_code == 429:
+        response_429 = Error.from_dict(response.json())
+
+        return response_429
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -68,7 +73,7 @@ def _build_response(
 def sync_detailed(
     domain: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> Response[Error | VerifyDomainResponse200]:
     """Verify a domain
 
@@ -101,7 +106,7 @@ def sync_detailed(
 def sync(
     domain: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> Error | VerifyDomainResponse200 | None:
     """Verify a domain
 
@@ -129,7 +134,7 @@ def sync(
 async def asyncio_detailed(
     domain: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> Response[Error | VerifyDomainResponse200]:
     """Verify a domain
 
@@ -160,7 +165,7 @@ async def asyncio_detailed(
 async def asyncio(
     domain: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> Error | VerifyDomainResponse200 | None:
     """Verify a domain
 

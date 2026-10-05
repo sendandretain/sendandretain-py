@@ -58,6 +58,11 @@ def _parse_response(
 
         return response_404
 
+    if response.status_code == 429:
+        response_429 = Error.from_dict(response.json())
+
+        return response_429
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -77,12 +82,12 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: AddAutomationStepsBody,
 ) -> Response[AddAutomationStepsResponse200 | Error]:
     """Append automation steps
 
-     Appends steps to a sequence or a branch lane. Appending to a live automation is safe — in-flight
+     Appends steps to an automation or a branch lane. Appending to a live automation is safe — in-flight
     contacts advance by stable step id, so they are never disturbed. Use `after_position` to insert, or
     `parent_step_id` + `lane_key` to target a branch lane.
 
@@ -110,12 +115,12 @@ def sync_detailed(
 
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: AddAutomationStepsBody,
 ) -> AddAutomationStepsResponse200 | Error | None:
     """Append automation steps
 
-     Appends steps to a sequence or a branch lane. Appending to a live automation is safe — in-flight
+     Appends steps to an automation or a branch lane. Appending to a live automation is safe — in-flight
     contacts advance by stable step id, so they are never disturbed. Use `after_position` to insert, or
     `parent_step_id` + `lane_key` to target a branch lane.
 
@@ -138,12 +143,12 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: AddAutomationStepsBody,
 ) -> Response[AddAutomationStepsResponse200 | Error]:
     """Append automation steps
 
-     Appends steps to a sequence or a branch lane. Appending to a live automation is safe — in-flight
+     Appends steps to an automation or a branch lane. Appending to a live automation is safe — in-flight
     contacts advance by stable step id, so they are never disturbed. Use `after_position` to insert, or
     `parent_step_id` + `lane_key` to target a branch lane.
 
@@ -169,12 +174,12 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: AddAutomationStepsBody,
 ) -> AddAutomationStepsResponse200 | Error | None:
     """Append automation steps
 
-     Appends steps to a sequence or a branch lane. Appending to a live automation is safe — in-flight
+     Appends steps to an automation or a branch lane. Appending to a live automation is safe — in-flight
     contacts advance by stable step id, so they are never disturbed. Use `after_position` to insert, or
     `parent_step_id` + `lane_key` to target a branch lane.
 

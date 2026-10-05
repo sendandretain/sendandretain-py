@@ -8,14 +8,17 @@ from ...client import AuthenticatedClient, Client
 from ...models.create_template_body import CreateTemplateBody
 from ...models.create_template_response_201 import CreateTemplateResponse201
 from ...models.error import Error
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     *,
     body: CreateTemplateBody,
+    idempotency_key: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
+    if not isinstance(idempotency_key, Unset):
+        headers["Idempotency-Key"] = idempotency_key
 
     _kwargs: dict[str, Any] = {
         "method": "post",
@@ -53,6 +56,16 @@ def _parse_response(
 
         return response_403
 
+    if response.status_code == 409:
+        response_409 = Error.from_dict(response.json())
+
+        return response_409
+
+    if response.status_code == 429:
+        response_429 = Error.from_dict(response.json())
+
+        return response_429
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -72,8 +85,9 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: CreateTemplateBody,
+    idempotency_key: str | Unset = UNSET,
 ) -> Response[CreateTemplateResponse201 | Error]:
     """Create a template
 
@@ -81,6 +95,7 @@ def sync_detailed(
     publish. Requires a `write`-scope key.
 
     Args:
+        idempotency_key (str | Unset):
         body (CreateTemplateBody):
 
     Raises:
@@ -93,6 +108,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         body=body,
+        idempotency_key=idempotency_key,
     )
 
     response = client.get_httpx_client().request(
@@ -104,8 +120,9 @@ def sync_detailed(
 
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: CreateTemplateBody,
+    idempotency_key: str | Unset = UNSET,
 ) -> CreateTemplateResponse201 | Error | None:
     """Create a template
 
@@ -113,6 +130,7 @@ def sync(
     publish. Requires a `write`-scope key.
 
     Args:
+        idempotency_key (str | Unset):
         body (CreateTemplateBody):
 
     Raises:
@@ -126,13 +144,15 @@ def sync(
     return sync_detailed(
         client=client,
         body=body,
+        idempotency_key=idempotency_key,
     ).parsed
 
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: CreateTemplateBody,
+    idempotency_key: str | Unset = UNSET,
 ) -> Response[CreateTemplateResponse201 | Error]:
     """Create a template
 
@@ -140,6 +160,7 @@ async def asyncio_detailed(
     publish. Requires a `write`-scope key.
 
     Args:
+        idempotency_key (str | Unset):
         body (CreateTemplateBody):
 
     Raises:
@@ -152,6 +173,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         body=body,
+        idempotency_key=idempotency_key,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -161,8 +183,9 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: CreateTemplateBody,
+    idempotency_key: str | Unset = UNSET,
 ) -> CreateTemplateResponse201 | Error | None:
     """Create a template
 
@@ -170,6 +193,7 @@ async def asyncio(
     publish. Requires a `write`-scope key.
 
     Args:
+        idempotency_key (str | Unset):
         body (CreateTemplateBody):
 
     Raises:
@@ -184,5 +208,6 @@ async def asyncio(
         await asyncio_detailed(
             client=client,
             body=body,
+            idempotency_key=idempotency_key,
         )
     ).parsed

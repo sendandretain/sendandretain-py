@@ -75,7 +75,7 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: SendEmailBatchBody,
     idempotency_key: str | Unset = UNSET,
 ) -> Response[Error | SendEmailBatchResponse202]:
@@ -125,7 +125,7 @@ def sync_detailed(
 
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: SendEmailBatchBody,
     idempotency_key: str | Unset = UNSET,
 ) -> Error | SendEmailBatchResponse202 | None:
@@ -170,7 +170,7 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: SendEmailBatchBody,
     idempotency_key: str | Unset = UNSET,
 ) -> Response[Error | SendEmailBatchResponse202]:
@@ -218,7 +218,7 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: SendEmailBatchBody,
     idempotency_key: str | Unset = UNSET,
 ) -> Error | SendEmailBatchResponse202 | None:

@@ -23,7 +23,7 @@ class CreateTemplateBody:
         slug (str): kebab-case identity, unique in the project. This is what `POST /api/v1/emails` sends by.
         name (str): Human label for the dashboard.
         category (CreateTemplateBodyCategory): `transactional` (receipts, resets — delivered even to unsubscribed
-            contacts) or `lifecycle` (marketing — not delivered to unsubscribed contacts). Both carry List-Unsubscribe
+            contacts) or `lifecycle` (marketing email — not delivered to unsubscribed contacts). Both carry List-Unsubscribe
             headers and an unsubscribe footer; the category decides only who an existing unsubscribe blocks.
         subject (str): Subject line. Supports `{{variable}}` interpolation.
         tsx_source (str): react.email TSX. May import only `react` and `@react-email/components` — the allowlist is

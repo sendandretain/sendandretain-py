@@ -26,6 +26,7 @@ class MessageStatus:
         subject (str | Unset):
         template (None | str | Unset):
         status (str | Unset): Latest status on the delivery ladder.
+        last_event (None | str | Unset): Type of the newest event in `events`, or null before the first.
         source (str | Unset):
         error (None | str | Unset):
         suppressed_reason (None | str | Unset):
@@ -44,6 +45,7 @@ class MessageStatus:
     subject: str | Unset = UNSET
     template: None | str | Unset = UNSET
     status: str | Unset = UNSET
+    last_event: None | str | Unset = UNSET
     source: str | Unset = UNSET
     error: None | str | Unset = UNSET
     suppressed_reason: None | str | Unset = UNSET
@@ -72,6 +74,12 @@ class MessageStatus:
             template = self.template
 
         status = self.status
+
+        last_event: None | str | Unset
+        if isinstance(self.last_event, Unset):
+            last_event = UNSET
+        else:
+            last_event = self.last_event
 
         source = self.source
 
@@ -147,6 +155,8 @@ class MessageStatus:
             field_dict["template"] = template
         if status is not UNSET:
             field_dict["status"] = status
+        if last_event is not UNSET:
+            field_dict["last_event"] = last_event
         if source is not UNSET:
             field_dict["source"] = source
         if error is not UNSET:
@@ -193,6 +203,15 @@ class MessageStatus:
         template = _parse_template(d.pop("template", UNSET))
 
         status = d.pop("status", UNSET)
+
+        def _parse_last_event(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        last_event = _parse_last_event(d.pop("last_event", UNSET))
 
         source = d.pop("source", UNSET)
 
@@ -298,6 +317,7 @@ class MessageStatus:
             subject=subject,
             template=template,
             status=status,
+            last_event=last_event,
             source=source,
             error=error,
             suppressed_reason=suppressed_reason,

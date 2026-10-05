@@ -16,6 +16,7 @@ def _get_kwargs(
     to: str | Unset = UNSET,
     limit: int | Unset = UNSET,
     before: str | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -27,6 +28,8 @@ def _get_kwargs(
     params["limit"] = limit
 
     params["before"] = before
+
+    params["cursor"] = cursor
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -62,6 +65,11 @@ def _parse_response(
 
         return response_403
 
+    if response.status_code == 429:
+        response_429 = Error.from_dict(response.json())
+
+        return response_429
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -81,11 +89,12 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     status: str | Unset = UNSET,
     to: str | Unset = UNSET,
     limit: int | Unset = UNSET,
     before: str | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> Response[Error | ListEmailsResponse200]:
     """List sent emails
 
@@ -97,6 +106,7 @@ def sync_detailed(
         to (str | Unset):
         limit (int | Unset):
         before (str | Unset):
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -111,6 +121,7 @@ def sync_detailed(
         to=to,
         limit=limit,
         before=before,
+        cursor=cursor,
     )
 
     response = client.get_httpx_client().request(
@@ -122,11 +133,12 @@ def sync_detailed(
 
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     status: str | Unset = UNSET,
     to: str | Unset = UNSET,
     limit: int | Unset = UNSET,
     before: str | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> Error | ListEmailsResponse200 | None:
     """List sent emails
 
@@ -138,6 +150,7 @@ def sync(
         to (str | Unset):
         limit (int | Unset):
         before (str | Unset):
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -153,16 +166,18 @@ def sync(
         to=to,
         limit=limit,
         before=before,
+        cursor=cursor,
     ).parsed
 
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     status: str | Unset = UNSET,
     to: str | Unset = UNSET,
     limit: int | Unset = UNSET,
     before: str | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> Response[Error | ListEmailsResponse200]:
     """List sent emails
 
@@ -174,6 +189,7 @@ async def asyncio_detailed(
         to (str | Unset):
         limit (int | Unset):
         before (str | Unset):
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -188,6 +204,7 @@ async def asyncio_detailed(
         to=to,
         limit=limit,
         before=before,
+        cursor=cursor,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -197,11 +214,12 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     status: str | Unset = UNSET,
     to: str | Unset = UNSET,
     limit: int | Unset = UNSET,
     before: str | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> Error | ListEmailsResponse200 | None:
     """List sent emails
 
@@ -213,6 +231,7 @@ async def asyncio(
         to (str | Unset):
         limit (int | Unset):
         before (str | Unset):
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -229,5 +248,6 @@ async def asyncio(
             to=to,
             limit=limit,
             before=before,
+            cursor=cursor,
         )
     ).parsed

@@ -60,6 +60,11 @@ def _parse_response(
 
         return response_409
 
+    if response.status_code == 429:
+        response_429 = Error.from_dict(response.json())
+
+        return response_429
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -81,7 +86,7 @@ def sync_detailed(
     id: str,
     delivery_id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> Response[Error | ReplayWebhookDeliveryResponse202]:
     """Replay a delivery
 
@@ -117,7 +122,7 @@ def sync(
     id: str,
     delivery_id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> Error | ReplayWebhookDeliveryResponse202 | None:
     """Replay a delivery
 
@@ -148,7 +153,7 @@ async def asyncio_detailed(
     id: str,
     delivery_id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> Response[Error | ReplayWebhookDeliveryResponse202]:
     """Replay a delivery
 
@@ -182,7 +187,7 @@ async def asyncio(
     id: str,
     delivery_id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> Error | ReplayWebhookDeliveryResponse202 | None:
     """Replay a delivery
 

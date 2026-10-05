@@ -16,6 +16,7 @@ def _get_kwargs(
     *,
     status: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -23,6 +24,8 @@ def _get_kwargs(
     params["status"] = status
 
     params["limit"] = limit
+
+    params["cursor"] = cursor
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -65,6 +68,11 @@ def _parse_response(
 
         return response_404
 
+    if response.status_code == 429:
+        response_429 = Error.from_dict(response.json())
+
+        return response_429
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -85,9 +93,10 @@ def _build_response(
 def sync_detailed(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     status: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> Response[Error | ListAutomationRunsResponse200]:
     """List enrollments
 
@@ -97,6 +106,7 @@ def sync_detailed(
         id (str):
         status (str | Unset):
         limit (int | Unset):
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -110,6 +120,7 @@ def sync_detailed(
         id=id,
         status=status,
         limit=limit,
+        cursor=cursor,
     )
 
     response = client.get_httpx_client().request(
@@ -122,9 +133,10 @@ def sync_detailed(
 def sync(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     status: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> Error | ListAutomationRunsResponse200 | None:
     """List enrollments
 
@@ -134,6 +146,7 @@ def sync(
         id (str):
         status (str | Unset):
         limit (int | Unset):
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -148,15 +161,17 @@ def sync(
         client=client,
         status=status,
         limit=limit,
+        cursor=cursor,
     ).parsed
 
 
 async def asyncio_detailed(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     status: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> Response[Error | ListAutomationRunsResponse200]:
     """List enrollments
 
@@ -166,6 +181,7 @@ async def asyncio_detailed(
         id (str):
         status (str | Unset):
         limit (int | Unset):
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -179,6 +195,7 @@ async def asyncio_detailed(
         id=id,
         status=status,
         limit=limit,
+        cursor=cursor,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -189,9 +206,10 @@ async def asyncio_detailed(
 async def asyncio(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     status: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    cursor: str | Unset = UNSET,
 ) -> Error | ListAutomationRunsResponse200 | None:
     """List enrollments
 
@@ -201,6 +219,7 @@ async def asyncio(
         id (str):
         status (str | Unset):
         limit (int | Unset):
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -216,5 +235,6 @@ async def asyncio(
             client=client,
             status=status,
             limit=limit,
+            cursor=cursor,
         )
     ).parsed

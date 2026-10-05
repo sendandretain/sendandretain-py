@@ -204,33 +204,48 @@ from .list_automation_runs_response_200_data_item import ListAutomationRunsRespo
 from .list_automation_runs_response_200_data_item_variant_assignments import (
     ListAutomationRunsResponse200DataItemVariantAssignments,
 )
+from .list_automation_runs_response_200_object import ListAutomationRunsResponse200Object
 from .list_automations_response_200 import ListAutomationsResponse200
 from .list_automations_response_200_data_item import ListAutomationsResponse200DataItem
+from .list_automations_response_200_object import ListAutomationsResponse200Object
 from .list_contact_events_response_200 import ListContactEventsResponse200
 from .list_contact_events_response_200_data_item import ListContactEventsResponse200DataItem
 from .list_contact_events_response_200_data_item_properties import ListContactEventsResponse200DataItemProperties
+from .list_contact_events_response_200_object import ListContactEventsResponse200Object
 from .list_contacts_response_200 import ListContactsResponse200
 from .list_contacts_response_200_data_item import ListContactsResponse200DataItem
+from .list_contacts_response_200_object import ListContactsResponse200Object
 from .list_domains_response_200 import ListDomainsResponse200
 from .list_domains_response_200_data_item import ListDomainsResponse200DataItem
 from .list_domains_response_200_data_item_dns_records_item import ListDomainsResponse200DataItemDnsRecordsItem
+from .list_domains_response_200_object import ListDomainsResponse200Object
 from .list_emails_response_200 import ListEmailsResponse200
+from .list_emails_response_200_object import ListEmailsResponse200Object
+from .list_envelope import ListEnvelope
+from .list_envelope_object import ListEnvelopeObject
 from .list_segments_response_200 import ListSegmentsResponse200
 from .list_segments_response_200_data_item import ListSegmentsResponse200DataItem
 from .list_segments_response_200_data_item_filter_item import ListSegmentsResponse200DataItemFilterItem
+from .list_segments_response_200_object import ListSegmentsResponse200Object
 from .list_senders_response_200 import ListSendersResponse200
 from .list_senders_response_200_data_item import ListSendersResponse200DataItem
+from .list_senders_response_200_object import ListSendersResponse200Object
 from .list_suppressions_reason import ListSuppressionsReason
 from .list_suppressions_response_200 import ListSuppressionsResponse200
 from .list_suppressions_response_200_data_item import ListSuppressionsResponse200DataItem
+from .list_suppressions_response_200_object import ListSuppressionsResponse200Object
 from .list_template_versions_response_200 import ListTemplateVersionsResponse200
 from .list_template_versions_response_200_data_item import ListTemplateVersionsResponse200DataItem
+from .list_template_versions_response_200_object import ListTemplateVersionsResponse200Object
 from .list_templates_response_200 import ListTemplatesResponse200
 from .list_templates_response_200_data_item import ListTemplatesResponse200DataItem
+from .list_templates_response_200_object import ListTemplatesResponse200Object
 from .list_webhook_deliveries_response_200 import ListWebhookDeliveriesResponse200
 from .list_webhook_deliveries_response_200_data_item import ListWebhookDeliveriesResponse200DataItem
+from .list_webhook_deliveries_response_200_object import ListWebhookDeliveriesResponse200Object
 from .list_webhook_endpoints_response_200 import ListWebhookEndpointsResponse200
 from .list_webhook_endpoints_response_200_data_item import ListWebhookEndpointsResponse200DataItem
+from .list_webhook_endpoints_response_200_object import ListWebhookEndpointsResponse200Object
 from .message_status import MessageStatus
 from .message_status_events_item import MessageStatusEventsItem
 from .move_automation_step_body import MoveAutomationStepBody
@@ -352,6 +367,68 @@ from .verify_domain_response_200_dmarc import VerifyDomainResponse200Dmarc
 from .verify_domain_response_200_dmarc_recommended_record import VerifyDomainResponse200DmarcRecommendedRecord
 from .verify_domain_response_200_dns_records_item import VerifyDomainResponse200DnsRecordsItem
 from .verify_domain_response_200_tracking_type_0 import VerifyDomainResponse200TrackingType0
+from .webhook_event_email_bounced import WebhookEventEmailBounced
+from .webhook_event_email_bounced_data import WebhookEventEmailBouncedData
+from .webhook_event_email_bounced_data_detail import WebhookEventEmailBouncedDataDetail
+from .webhook_event_email_bounced_type import WebhookEventEmailBouncedType
+from .webhook_event_email_bounced_version import WebhookEventEmailBouncedVersion
+from .webhook_event_email_canceled import WebhookEventEmailCanceled
+from .webhook_event_email_canceled_data import WebhookEventEmailCanceledData
+from .webhook_event_email_canceled_data_detail import WebhookEventEmailCanceledDataDetail
+from .webhook_event_email_canceled_type import WebhookEventEmailCanceledType
+from .webhook_event_email_canceled_version import WebhookEventEmailCanceledVersion
+from .webhook_event_email_clicked import WebhookEventEmailClicked
+from .webhook_event_email_clicked_data import WebhookEventEmailClickedData
+from .webhook_event_email_clicked_data_detail import WebhookEventEmailClickedDataDetail
+from .webhook_event_email_clicked_type import WebhookEventEmailClickedType
+from .webhook_event_email_clicked_version import WebhookEventEmailClickedVersion
+from .webhook_event_email_complained import WebhookEventEmailComplained
+from .webhook_event_email_complained_data import WebhookEventEmailComplainedData
+from .webhook_event_email_complained_data_detail import WebhookEventEmailComplainedDataDetail
+from .webhook_event_email_complained_type import WebhookEventEmailComplainedType
+from .webhook_event_email_complained_version import WebhookEventEmailComplainedVersion
+from .webhook_event_email_delivered import WebhookEventEmailDelivered
+from .webhook_event_email_delivered_data import WebhookEventEmailDeliveredData
+from .webhook_event_email_delivered_data_detail import WebhookEventEmailDeliveredDataDetail
+from .webhook_event_email_delivered_type import WebhookEventEmailDeliveredType
+from .webhook_event_email_delivered_version import WebhookEventEmailDeliveredVersion
+from .webhook_event_email_delivery_delayed import WebhookEventEmailDeliveryDelayed
+from .webhook_event_email_delivery_delayed_data import WebhookEventEmailDeliveryDelayedData
+from .webhook_event_email_delivery_delayed_data_detail import WebhookEventEmailDeliveryDelayedDataDetail
+from .webhook_event_email_delivery_delayed_type import WebhookEventEmailDeliveryDelayedType
+from .webhook_event_email_delivery_delayed_version import WebhookEventEmailDeliveryDelayedVersion
+from .webhook_event_email_failed import WebhookEventEmailFailed
+from .webhook_event_email_failed_data import WebhookEventEmailFailedData
+from .webhook_event_email_failed_data_detail import WebhookEventEmailFailedDataDetail
+from .webhook_event_email_failed_type import WebhookEventEmailFailedType
+from .webhook_event_email_failed_version import WebhookEventEmailFailedVersion
+from .webhook_event_email_opened import WebhookEventEmailOpened
+from .webhook_event_email_opened_data import WebhookEventEmailOpenedData
+from .webhook_event_email_opened_data_detail import WebhookEventEmailOpenedDataDetail
+from .webhook_event_email_opened_type import WebhookEventEmailOpenedType
+from .webhook_event_email_opened_version import WebhookEventEmailOpenedVersion
+from .webhook_event_email_sent import WebhookEventEmailSent
+from .webhook_event_email_sent_data import WebhookEventEmailSentData
+from .webhook_event_email_sent_data_detail import WebhookEventEmailSentDataDetail
+from .webhook_event_email_sent_type import WebhookEventEmailSentType
+from .webhook_event_email_sent_version import WebhookEventEmailSentVersion
+from .webhook_event_email_suppressed import WebhookEventEmailSuppressed
+from .webhook_event_email_suppressed_data import WebhookEventEmailSuppressedData
+from .webhook_event_email_suppressed_data_detail import WebhookEventEmailSuppressedDataDetail
+from .webhook_event_email_suppressed_type import WebhookEventEmailSuppressedType
+from .webhook_event_email_suppressed_version import WebhookEventEmailSuppressedVersion
+from .webhook_event_email_unsubscribed import WebhookEventEmailUnsubscribed
+from .webhook_event_email_unsubscribed_data import WebhookEventEmailUnsubscribedData
+from .webhook_event_email_unsubscribed_data_detail import WebhookEventEmailUnsubscribedDataDetail
+from .webhook_event_email_unsubscribed_type import WebhookEventEmailUnsubscribedType
+from .webhook_event_email_unsubscribed_version import WebhookEventEmailUnsubscribedVersion
+from .webhook_event_webhook_test import WebhookEventWebhookTest
+from .webhook_event_webhook_test_data import WebhookEventWebhookTestData
+from .webhook_event_webhook_test_data_detail import WebhookEventWebhookTestDataDetail
+from .webhook_event_webhook_test_type import WebhookEventWebhookTestType
+from .webhook_event_webhook_test_version import WebhookEventWebhookTestVersion
+from .webhook_message import WebhookMessage
+from .webhook_message_tags_type_0_item import WebhookMessageTagsType0Item
 
 __all__ = (
     "AddAutomationStepsBody",
@@ -520,33 +597,48 @@ __all__ = (
     "ListAutomationRunsResponse200",
     "ListAutomationRunsResponse200DataItem",
     "ListAutomationRunsResponse200DataItemVariantAssignments",
+    "ListAutomationRunsResponse200Object",
     "ListAutomationsResponse200",
     "ListAutomationsResponse200DataItem",
+    "ListAutomationsResponse200Object",
     "ListContactEventsResponse200",
     "ListContactEventsResponse200DataItem",
     "ListContactEventsResponse200DataItemProperties",
+    "ListContactEventsResponse200Object",
     "ListContactsResponse200",
     "ListContactsResponse200DataItem",
+    "ListContactsResponse200Object",
     "ListDomainsResponse200",
     "ListDomainsResponse200DataItem",
     "ListDomainsResponse200DataItemDnsRecordsItem",
+    "ListDomainsResponse200Object",
     "ListEmailsResponse200",
+    "ListEmailsResponse200Object",
+    "ListEnvelope",
+    "ListEnvelopeObject",
     "ListSegmentsResponse200",
     "ListSegmentsResponse200DataItem",
     "ListSegmentsResponse200DataItemFilterItem",
+    "ListSegmentsResponse200Object",
     "ListSendersResponse200",
     "ListSendersResponse200DataItem",
+    "ListSendersResponse200Object",
     "ListSuppressionsReason",
     "ListSuppressionsResponse200",
     "ListSuppressionsResponse200DataItem",
+    "ListSuppressionsResponse200Object",
     "ListTemplatesResponse200",
     "ListTemplatesResponse200DataItem",
+    "ListTemplatesResponse200Object",
     "ListTemplateVersionsResponse200",
     "ListTemplateVersionsResponse200DataItem",
+    "ListTemplateVersionsResponse200Object",
     "ListWebhookDeliveriesResponse200",
     "ListWebhookDeliveriesResponse200DataItem",
+    "ListWebhookDeliveriesResponse200Object",
     "ListWebhookEndpointsResponse200",
     "ListWebhookEndpointsResponse200DataItem",
+    "ListWebhookEndpointsResponse200Object",
     "MessageStatus",
     "MessageStatusEventsItem",
     "MoveAutomationStepBody",
@@ -662,4 +754,66 @@ __all__ = (
     "VerifyDomainResponse200DmarcRecommendedRecord",
     "VerifyDomainResponse200DnsRecordsItem",
     "VerifyDomainResponse200TrackingType0",
+    "WebhookEventEmailBounced",
+    "WebhookEventEmailBouncedData",
+    "WebhookEventEmailBouncedDataDetail",
+    "WebhookEventEmailBouncedType",
+    "WebhookEventEmailBouncedVersion",
+    "WebhookEventEmailCanceled",
+    "WebhookEventEmailCanceledData",
+    "WebhookEventEmailCanceledDataDetail",
+    "WebhookEventEmailCanceledType",
+    "WebhookEventEmailCanceledVersion",
+    "WebhookEventEmailClicked",
+    "WebhookEventEmailClickedData",
+    "WebhookEventEmailClickedDataDetail",
+    "WebhookEventEmailClickedType",
+    "WebhookEventEmailClickedVersion",
+    "WebhookEventEmailComplained",
+    "WebhookEventEmailComplainedData",
+    "WebhookEventEmailComplainedDataDetail",
+    "WebhookEventEmailComplainedType",
+    "WebhookEventEmailComplainedVersion",
+    "WebhookEventEmailDelivered",
+    "WebhookEventEmailDeliveredData",
+    "WebhookEventEmailDeliveredDataDetail",
+    "WebhookEventEmailDeliveredType",
+    "WebhookEventEmailDeliveredVersion",
+    "WebhookEventEmailDeliveryDelayed",
+    "WebhookEventEmailDeliveryDelayedData",
+    "WebhookEventEmailDeliveryDelayedDataDetail",
+    "WebhookEventEmailDeliveryDelayedType",
+    "WebhookEventEmailDeliveryDelayedVersion",
+    "WebhookEventEmailFailed",
+    "WebhookEventEmailFailedData",
+    "WebhookEventEmailFailedDataDetail",
+    "WebhookEventEmailFailedType",
+    "WebhookEventEmailFailedVersion",
+    "WebhookEventEmailOpened",
+    "WebhookEventEmailOpenedData",
+    "WebhookEventEmailOpenedDataDetail",
+    "WebhookEventEmailOpenedType",
+    "WebhookEventEmailOpenedVersion",
+    "WebhookEventEmailSent",
+    "WebhookEventEmailSentData",
+    "WebhookEventEmailSentDataDetail",
+    "WebhookEventEmailSentType",
+    "WebhookEventEmailSentVersion",
+    "WebhookEventEmailSuppressed",
+    "WebhookEventEmailSuppressedData",
+    "WebhookEventEmailSuppressedDataDetail",
+    "WebhookEventEmailSuppressedType",
+    "WebhookEventEmailSuppressedVersion",
+    "WebhookEventEmailUnsubscribed",
+    "WebhookEventEmailUnsubscribedData",
+    "WebhookEventEmailUnsubscribedDataDetail",
+    "WebhookEventEmailUnsubscribedType",
+    "WebhookEventEmailUnsubscribedVersion",
+    "WebhookEventWebhookTest",
+    "WebhookEventWebhookTestData",
+    "WebhookEventWebhookTestDataDetail",
+    "WebhookEventWebhookTestType",
+    "WebhookEventWebhookTestVersion",
+    "WebhookMessage",
+    "WebhookMessageTagsType0Item",
 )

@@ -73,7 +73,7 @@ def _build_response(
 def sync_detailed(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> Response[CancelEmailResponse200 | Error]:
     """Cancel an email
 
@@ -105,7 +105,7 @@ def sync_detailed(
 def sync(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> CancelEmailResponse200 | Error | None:
     """Cancel an email
 
@@ -132,7 +132,7 @@ def sync(
 async def asyncio_detailed(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> Response[CancelEmailResponse200 | Error]:
     """Cancel an email
 
@@ -162,7 +162,7 @@ async def asyncio_detailed(
 async def asyncio(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
 ) -> CancelEmailResponse200 | Error | None:
     """Cancel an email
 

@@ -82,7 +82,7 @@ def _build_response(
 def sync_detailed(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: RescheduleEmailBody,
 ) -> Response[Error | RescheduleEmailResponse200]:
     """Reschedule an email
@@ -117,7 +117,7 @@ def sync_detailed(
 def sync(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: RescheduleEmailBody,
 ) -> Error | RescheduleEmailResponse200 | None:
     """Reschedule an email
@@ -147,7 +147,7 @@ def sync(
 async def asyncio_detailed(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: RescheduleEmailBody,
 ) -> Response[Error | RescheduleEmailResponse200]:
     """Reschedule an email
@@ -180,7 +180,7 @@ async def asyncio_detailed(
 async def asyncio(
     id: str,
     *,
-    client: AuthenticatedClient | Client,
+    client: AuthenticatedClient,
     body: RescheduleEmailBody,
 ) -> Error | RescheduleEmailResponse200 | None:
     """Reschedule an email

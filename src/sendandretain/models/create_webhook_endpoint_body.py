@@ -18,7 +18,7 @@ class CreateWebhookEndpointBody:
         url (str): HTTPS endpoint that receives the events. Must resolve to a public address — private ranges, localhost
             and non-default ports are refused, and the check is repeated before every delivery.
         event_types (list[str]): Events to receive. Subscribe to `webhook.test` as well so you can verify the endpoint
-            before real mail flows.
+            before real mail goes out.
         description (None | str | Unset): Your own label. Never sent to the endpoint.
     """
 

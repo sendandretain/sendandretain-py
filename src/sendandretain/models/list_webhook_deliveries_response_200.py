@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
+from ..models.list_webhook_deliveries_response_200_object import ListWebhookDeliveriesResponse200Object
 
 if TYPE_CHECKING:
     from ..models.list_webhook_deliveries_response_200_data_item import ListWebhookDeliveriesResponse200DataItem
@@ -19,31 +19,41 @@ T = TypeVar("T", bound="ListWebhookDeliveriesResponse200")
 class ListWebhookDeliveriesResponse200:
     """
     Attributes:
-        data (list[ListWebhookDeliveriesResponse200DataItem] | Unset):
-        has_more (bool | Unset): More rows exist before the oldest returned.
+        data (list[ListWebhookDeliveriesResponse200DataItem]):
+        has_more (bool): More rows exist after this page.
+        object_ (ListWebhookDeliveriesResponse200Object):
+        next_cursor (None | str): Pass as `?cursor=` for the next page. Null on the last page.
     """
 
-    data: list[ListWebhookDeliveriesResponse200DataItem] | Unset = UNSET
-    has_more: bool | Unset = UNSET
+    data: list[ListWebhookDeliveriesResponse200DataItem]
+    has_more: bool
+    object_: ListWebhookDeliveriesResponse200Object
+    next_cursor: None | str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        data: list[dict[str, Any]] | Unset = UNSET
-        if not isinstance(self.data, Unset):
-            data = []
-            for data_item_data in self.data:
-                data_item = data_item_data.to_dict()
-                data.append(data_item)
+        data = []
+        for data_item_data in self.data:
+            data_item = data_item_data.to_dict()
+            data.append(data_item)
 
         has_more = self.has_more
 
+        object_ = self.object_.value
+
+        next_cursor: None | str
+        next_cursor = self.next_cursor
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if data is not UNSET:
-            field_dict["data"] = data
-        if has_more is not UNSET:
-            field_dict["has_more"] = has_more
+        field_dict.update(
+            {
+                "data": data,
+                "has_more": has_more,
+                "object": object_,
+                "next_cursor": next_cursor,
+            }
+        )
 
         return field_dict
 
@@ -52,20 +62,29 @@ class ListWebhookDeliveriesResponse200:
         from ..models.list_webhook_deliveries_response_200_data_item import ListWebhookDeliveriesResponse200DataItem
 
         d = dict(src_dict)
-        _data = d.pop("data", UNSET)
-        data: list[ListWebhookDeliveriesResponse200DataItem] | Unset = UNSET
-        if _data is not UNSET:
-            data = []
-            for data_item_data in _data:
-                data_item = ListWebhookDeliveriesResponse200DataItem.from_dict(data_item_data)
+        data = []
+        _data = d.pop("data")
+        for data_item_data in _data:
+            data_item = ListWebhookDeliveriesResponse200DataItem.from_dict(data_item_data)
 
-                data.append(data_item)
+            data.append(data_item)
 
-        has_more = d.pop("has_more", UNSET)
+        has_more = d.pop("has_more")
+
+        object_ = ListWebhookDeliveriesResponse200Object(d.pop("object"))
+
+        def _parse_next_cursor(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        next_cursor = _parse_next_cursor(d.pop("next_cursor"))
 
         list_webhook_deliveries_response_200 = cls(
             data=data,
             has_more=has_more,
+            object_=object_,
+            next_cursor=next_cursor,
         )
 
         list_webhook_deliveries_response_200.additional_properties = d
