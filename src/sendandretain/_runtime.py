@@ -287,4 +287,3 @@ def iterate_pages(fetch_page: Callable[[str | None], dict]) -> Iterator[dict]:
         cursor = page.get("next_cursor")
         if not page.get("has_more") or not cursor:
             return
-
