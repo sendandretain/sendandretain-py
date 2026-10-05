@@ -181,7 +181,11 @@ def _is_quota(response: httpx.Response) -> bool:
 
 def _prepare(request: httpx.Request, api_key: str, ua: str, max_retries: int) -> bool:
     request.headers["Authorization"] = f"Bearer {api_key}"
-    request.headers.setdefault("User-Agent", ua)
+    # httpx stamps its own `python-httpx/x.y` on every request, so "set if
+    # absent" would never fire. Replace that default; keep a caller's own.
+    current = request.headers.get("User-Agent", "")
+    if not current or current.startswith("python-httpx/"):
+        request.headers["User-Agent"] = ua
     if request.method == "POST" and max_retries > 0 and "Idempotency-Key" not in request.headers:
         request.headers["Idempotency-Key"] = str(_uuid.uuid4())
     return request.method in _IDEMPOTENT_METHODS or "Idempotency-Key" in request.headers
