@@ -6,8 +6,15 @@
 
 from __future__ import annotations
 
+import json as _json
 import os
+import random as _random
+import time as _time
+import uuid as _uuid
+from collections.abc import Callable, Iterator
 from dataclasses import dataclass
+
+import httpx
 
 DEFAULT_BASE_URL = "https://sendandretain.com"
 API_KEY_PREFIX = "aem_"
@@ -31,7 +38,7 @@ def resolve_api_key(explicit: str | None = None) -> str:
     """
     key = explicit if explicit is not None else os.environ.get(API_KEY_ENV_VAR)
     if not key:
-        raise ValueError(f"No API key. Pass Client(api_key=...) or set ${API_KEY_ENV_VAR}.")
+        raise ValueError(f"No API key. Pass api_key=... or set ${API_KEY_ENV_VAR}.")
     if not key.startswith(API_KEY_PREFIX):
         raise ValueError(
             f"{BRAND_NAME} API keys start with {API_KEY_PREFIX!r}; got {key[:8]!r}…. "
@@ -131,3 +138,153 @@ _SUGGESTED_ACTIONS = {
 def suggested_action(code: str) -> str | None:
     """What to try for a given error code, or None rather than a guess."""
     return _SUGGESTED_ACTIONS.get(code)
+
+
+# ── Transport ──────────────────────────────────────────────────────────────
+#
+# An httpx transport every request goes through: auth, User-Agent, retries
+# and idempotency, decided once here rather than per method.
+
+#: Default number of RETRIES (so up to three attempts in all).
+DEFAULT_MAX_RETRIES = 2
+
+_RETRYABLE_STATUS = frozenset({408, 429, 500, 502, 503, 504})
+_IDEMPOTENT_METHODS = frozenset({"GET", "HEAD", "OPTIONS", "PUT", "DELETE"})
+#: 429s that are a sending QUOTA, not a throttle: waiting a second changes nothing.
+_QUOTA_CODES = frozenset({"daily_cap", "monthly_cap"})
+
+
+def backoff_seconds(attempt: int, retry_after: str | None) -> float:
+    """Seconds to wait before retry number ``attempt`` (1-based).
+
+    ``Retry-After`` wins when the server sent one. Otherwise exponential backoff
+    from 0.5s, capped at 8s, with full jitter.
+    """
+    if retry_after is not None:
+        try:
+            return min(max(float(retry_after), 0.0), 60.0)
+        except ValueError:
+            pass
+    ceiling = min(0.5 * 2 ** (attempt - 1), 8.0)
+    return ceiling / 2 + _random.random() * (ceiling / 2)
+
+
+def _is_quota(response: httpx.Response) -> bool:
+    if response.status_code != 429:
+        return False
+    try:
+        code = (_json.loads(response.content).get("error") or {}).get("code")
+    except (ValueError, AttributeError):
+        return False
+    return code in _QUOTA_CODES
+
+
+def _prepare(request: httpx.Request, api_key: str, ua: str, max_retries: int) -> bool:
+    request.headers["Authorization"] = f"Bearer {api_key}"
+    request.headers.setdefault("User-Agent", ua)
+    if request.method == "POST" and max_retries > 0 and "Idempotency-Key" not in request.headers:
+        request.headers["Idempotency-Key"] = str(_uuid.uuid4())
+    return request.method in _IDEMPOTENT_METHODS or "Idempotency-Key" in request.headers
+
+
+class RetryTransport(httpx.BaseTransport):
+    """Sync transport. Retries only safe requests: an idempotent method, or a
+    POST carrying an ``Idempotency-Key`` — and every POST gets one generated when
+    the caller passed none, so a retried create can never run twice. A 429
+    ``daily_cap`` / ``monthly_cap`` is a quota and is returned at once."""
+
+    def __init__(
+        self,
+        api_key: str,
+        version: str,
+        max_retries: int = DEFAULT_MAX_RETRIES,
+        transport: httpx.BaseTransport | None = None,
+    ) -> None:
+        self._api_key = api_key
+        self._ua = user_agent(version)
+        self._max_retries = max(0, max_retries)
+        self._inner = transport or httpx.HTTPTransport()
+
+    def handle_request(self, request: httpx.Request) -> httpx.Response:
+        retryable = _prepare(request, self._api_key, self._ua, self._max_retries)
+        attempt = 0
+        while True:
+            try:
+                response = self._inner.handle_request(request)
+            except httpx.TransportError:
+                if not retryable or attempt >= self._max_retries:
+                    raise
+                attempt += 1
+                _time.sleep(backoff_seconds(attempt, None))
+                continue
+            if retryable and attempt < self._max_retries and response.status_code in _RETRYABLE_STATUS:
+                response.read()
+                if not _is_quota(response):
+                    attempt += 1
+                    retry_after = response.headers.get("Retry-After")
+                    response.close()
+                    _time.sleep(backoff_seconds(attempt, retry_after))
+                    continue
+            return response
+
+    def close(self) -> None:
+        self._inner.close()
+
+
+class AsyncRetryTransport(httpx.AsyncBaseTransport):
+    """The async twin of :class:`RetryTransport`, with the same policy."""
+
+    def __init__(
+        self,
+        api_key: str,
+        version: str,
+        max_retries: int = DEFAULT_MAX_RETRIES,
+        transport: httpx.AsyncBaseTransport | None = None,
+    ) -> None:
+        self._api_key = api_key
+        self._ua = user_agent(version)
+        self._max_retries = max(0, max_retries)
+        self._inner = transport or httpx.AsyncHTTPTransport()
+
+    async def handle_async_request(self, request: httpx.Request) -> httpx.Response:
+        import asyncio
+
+        retryable = _prepare(request, self._api_key, self._ua, self._max_retries)
+        attempt = 0
+        while True:
+            try:
+                response = await self._inner.handle_async_request(request)
+            except httpx.TransportError:
+                if not retryable or attempt >= self._max_retries:
+                    raise
+                attempt += 1
+                await asyncio.sleep(backoff_seconds(attempt, None))
+                continue
+            if retryable and attempt < self._max_retries and response.status_code in _RETRYABLE_STATUS:
+                await response.aread()
+                if not _is_quota(response):
+                    attempt += 1
+                    retry_after = response.headers.get("Retry-After")
+                    await response.aclose()
+                    await asyncio.sleep(backoff_seconds(attempt, retry_after))
+                    continue
+            return response
+
+    async def aclose(self) -> None:
+        await self._inner.aclose()
+
+
+def iterate_pages(fetch_page: Callable[[str | None], dict]) -> Iterator[dict]:
+    """Yield every row of a list, following ``next_cursor``.
+
+    ``fetch_page`` takes the cursor (None for the first page) and returns the
+    parsed envelope ``{"object": "list", "data": [...], "has_more", "next_cursor"}``.
+    """
+    cursor: str | None = None
+    while True:
+        page = fetch_page(cursor)
+        yield from page.get("data") or []
+        cursor = page.get("next_cursor")
+        if not page.get("has_more") or not cursor:
+            return
+
