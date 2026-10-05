@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import filecmp
 import pathlib
+import subprocess
 import sys
 import tempfile
 
@@ -64,7 +65,12 @@ def main() -> int:
 
     if not (missing or stale or changed):
         print(f"OK generated client is in sync with openapi.json ({len(committed)} files)")
-        return 0
+        # The facade is the second projection of the same spec.
+        facade = subprocess.run(
+            [sys.executable, str(REPO / "scripts" / "generate_facade.py"), "--check"], capture_output=True, text=True
+        )
+        print((facade.stdout or facade.stderr).strip())
+        return facade.returncode
 
     print("FAIL generated client has drifted from openapi.json\n")
     for label, paths in (

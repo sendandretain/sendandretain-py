@@ -5,8 +5,10 @@ The generated tree is committed, so this only runs when the spec or the
 generator version changes. `scripts/verify_schema_sync.py` runs it into a
 throwaway directory and fails if the result differs from what is committed.
 
-The generator owns every path in `GENERATED_PATHS`; the two hand-written
-modules beside them (`__init__.py`, `_convenience.py`) are left alone. That is
+The generator owns every path in `GENERATED_PATHS`; everything else in the
+package is left alone — the hand-written modules in `HAND_WRITTEN`, the synced
+`_runtime.py`, and `_resources.py`, which `generate_facade.py` rebuilds from the
+same spec at the end of this script. That is
 what lets the public import paths be real -- `sendandretain.api.emails` rather than
 `sendandretain._generated.api.emails` -- while regeneration stays a clean replace.
 
@@ -41,7 +43,16 @@ GENERATED_PATHS = ("api", "models", "client.py", "errors.py", "types.py")
 # packaging files at all, and the PEP 561 marker is what tells a type checker
 # that this *distribution* ships types. Without it every annotation in the
 # generated tree is invisible to anyone who pip-installs the package.
-HAND_WRITTEN = ("__init__.py", "_convenience.py", "py.typed")
+HAND_WRITTEN = (
+    "__init__.py",
+    "_base.py",
+    "_client.py",
+    "_convenience.py",
+    "_exceptions.py",
+    "_version.py",
+    "_webhooks.py",
+    "py.typed",
+)
 
 
 def generator_command() -> list[str]:
@@ -123,6 +134,8 @@ def main() -> None:
         generate_into(fresh)
         install(fresh)
     print(f"generated {PACKAGE.relative_to(REPO)} ({', '.join(GENERATED_PATHS)})")
+    # The facade is projected from the same spec, so it moves in the same step.
+    subprocess.run([sys.executable, str(REPO / "scripts" / "generate_facade.py")], check=True)
 
 
 if __name__ == "__main__":
