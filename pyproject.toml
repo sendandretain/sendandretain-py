@@ -27,8 +27,8 @@ dependencies = [
 [project.urls]
 Homepage = "https://sendandretain.com"
 Documentation = "https://sendandretain.com/docs"
-Source = "https://github.com/sendandretain/sendandretain-py"
-Issues = "https://github.com/sendandretain/sendandretain-py/issues"
+Source = "https://github.com/sendretain/sendandretain-py"
+Issues = "https://github.com/sendretain/sendandretain-py/issues"
 
 [build-system]
 requires = ["hatchling"]
