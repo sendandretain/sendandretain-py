@@ -1,6 +1,6 @@
 [project]
 name = "sendandretain"
-version = "0.2.0"
+version = "0.2.1"
 description = "The Send & Retain SDK for Python — send email, sync contacts and verify webhooks, sync or async."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -27,8 +27,8 @@ dependencies = [
 [project.urls]
 Homepage = "https://sendandretain.com"
 Documentation = "https://sendandretain.com/docs"
-Source = "https://github.com/sendandretainhq/sendandretain-py"
-Issues = "https://github.com/sendandretainhq/sendandretain-py/issues"
+Source = "https://github.com/sendandretain/sendandretain-py"
+Issues = "https://github.com/sendandretain/sendandretain-py/issues"
 
 [build-system]
 requires = ["hatchling"]
