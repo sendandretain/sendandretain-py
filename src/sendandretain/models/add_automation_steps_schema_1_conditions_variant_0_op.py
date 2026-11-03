@@ -9,6 +9,7 @@ class AddAutomationStepsSchema1ConditionsVariant0Op(str, Enum):
     IN = "in"
     LT = "lt"
     NEQ = "neq"
+    NOT_CONTAINS = "not_contains"
     NOT_EXISTS = "not_exists"
     OLDER_THAN_DAYS = "older_than_days"
     WITHIN_DAYS = "within_days"

@@ -90,11 +90,12 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: UpdateTemplateMetaBody,
 ) -> Response[Error | UpdateTemplateMetaResponse200]:
-    r"""Edit subject, preview text, or sender
+    r"""Edit subject, preview text, sender, or description
 
      The \"just fix the email meta\" path — no new TSX. Subject and preview-text edits are copy-on-write
     (a new draft version) and are **auto-published when the template is already published**, so the
-    change actually sends instead of stranding a draft. The sender updates in place.
+    change actually sends instead of stranding a draft. They are built on the **live** version, never on
+    a newer unreviewed draft. The sender and description update in place.
 
     Args:
         slug (str):
@@ -126,11 +127,12 @@ def sync(
     client: AuthenticatedClient,
     body: UpdateTemplateMetaBody,
 ) -> Error | UpdateTemplateMetaResponse200 | None:
-    r"""Edit subject, preview text, or sender
+    r"""Edit subject, preview text, sender, or description
 
      The \"just fix the email meta\" path — no new TSX. Subject and preview-text edits are copy-on-write
     (a new draft version) and are **auto-published when the template is already published**, so the
-    change actually sends instead of stranding a draft. The sender updates in place.
+    change actually sends instead of stranding a draft. They are built on the **live** version, never on
+    a newer unreviewed draft. The sender and description update in place.
 
     Args:
         slug (str):
@@ -157,11 +159,12 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: UpdateTemplateMetaBody,
 ) -> Response[Error | UpdateTemplateMetaResponse200]:
-    r"""Edit subject, preview text, or sender
+    r"""Edit subject, preview text, sender, or description
 
      The \"just fix the email meta\" path — no new TSX. Subject and preview-text edits are copy-on-write
     (a new draft version) and are **auto-published when the template is already published**, so the
-    change actually sends instead of stranding a draft. The sender updates in place.
+    change actually sends instead of stranding a draft. They are built on the **live** version, never on
+    a newer unreviewed draft. The sender and description update in place.
 
     Args:
         slug (str):
@@ -191,11 +194,12 @@ async def asyncio(
     client: AuthenticatedClient,
     body: UpdateTemplateMetaBody,
 ) -> Error | UpdateTemplateMetaResponse200 | None:
-    r"""Edit subject, preview text, or sender
+    r"""Edit subject, preview text, sender, or description
 
      The \"just fix the email meta\" path — no new TSX. Subject and preview-text edits are copy-on-write
     (a new draft version) and are **auto-published when the template is already published**, so the
-    change actually sends instead of stranding a draft. The sender updates in place.
+    change actually sends instead of stranding a draft. They are built on the **live** version, never on
+    a newer unreviewed draft. The sender and description update in place.
 
     Args:
         slug (str):

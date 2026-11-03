@@ -9,6 +9,9 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.settings_patch_request_body_content_application_json_frequency_cap_variant_0 import (
+        SettingsPatchRequestBodyContentApplicationJsonFrequencyCapVariant0,
+    )
     from ..models.settings_patch_request_body_content_application_json_utm_variant_0 import (
         SettingsPatchRequestBodyContentApplicationJsonUtmVariant0,
     )
@@ -31,6 +34,11 @@ class UpdateProjectSettingsBody:
         default_locale (None | str | Unset): Fallback locale for template translation picks (tag like `fr` or `pt-BR`)
             when neither the send call nor the contact carries one. `null` clears it — sends fall back to the base template
             language.
+        frequency_cap (None | SettingsPatchRequestBodyContentApplicationJsonFrequencyCapVariant0 | Unset): Per-contact
+            ceiling on **lifecycle** email across every automation — `{ max: 1, window_hours: 24 }` is at most one a day. A
+            capped automation send is deferred until the window has room (then clamped to the step's send window), never
+            skipped. Transactional templates are never held back, and direct API sends are not held back either, though they
+            count toward the cap. `null` clears it.
         confirm (bool | Unset): Required (`true`) to pause. Resuming needs no confirmation.
     """
 
@@ -38,10 +46,14 @@ class UpdateProjectSettingsBody:
     daily_send_cap: int | Unset = UNSET
     utm: None | SettingsPatchRequestBodyContentApplicationJsonUtmVariant0 | Unset = UNSET
     default_locale: None | str | Unset = UNSET
+    frequency_cap: None | SettingsPatchRequestBodyContentApplicationJsonFrequencyCapVariant0 | Unset = UNSET
     confirm: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.settings_patch_request_body_content_application_json_frequency_cap_variant_0 import (
+            SettingsPatchRequestBodyContentApplicationJsonFrequencyCapVariant0,
+        )
         from ..models.settings_patch_request_body_content_application_json_utm_variant_0 import (
             SettingsPatchRequestBodyContentApplicationJsonUtmVariant0,
         )
@@ -64,6 +76,14 @@ class UpdateProjectSettingsBody:
         else:
             default_locale = self.default_locale
 
+        frequency_cap: dict[str, Any] | None | Unset
+        if isinstance(self.frequency_cap, Unset):
+            frequency_cap = UNSET
+        elif isinstance(self.frequency_cap, SettingsPatchRequestBodyContentApplicationJsonFrequencyCapVariant0):
+            frequency_cap = self.frequency_cap.to_dict()
+        else:
+            frequency_cap = self.frequency_cap
+
         confirm = self.confirm
 
         field_dict: dict[str, Any] = {}
@@ -77,6 +97,8 @@ class UpdateProjectSettingsBody:
             field_dict["utm"] = utm
         if default_locale is not UNSET:
             field_dict["default_locale"] = default_locale
+        if frequency_cap is not UNSET:
+            field_dict["frequency_cap"] = frequency_cap
         if confirm is not UNSET:
             field_dict["confirm"] = confirm
 
@@ -84,6 +106,9 @@ class UpdateProjectSettingsBody:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.settings_patch_request_body_content_application_json_frequency_cap_variant_0 import (
+            SettingsPatchRequestBodyContentApplicationJsonFrequencyCapVariant0,
+        )
         from ..models.settings_patch_request_body_content_application_json_utm_variant_0 import (
             SettingsPatchRequestBodyContentApplicationJsonUtmVariant0,
         )
@@ -119,6 +144,27 @@ class UpdateProjectSettingsBody:
 
         default_locale = _parse_default_locale(d.pop("default_locale", UNSET))
 
+        def _parse_frequency_cap(
+            data: object,
+        ) -> None | SettingsPatchRequestBodyContentApplicationJsonFrequencyCapVariant0 | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                frequency_cap_type_0 = SettingsPatchRequestBodyContentApplicationJsonFrequencyCapVariant0.from_dict(
+                    data
+                )
+
+                return frequency_cap_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | SettingsPatchRequestBodyContentApplicationJsonFrequencyCapVariant0 | Unset, data)
+
+        frequency_cap = _parse_frequency_cap(d.pop("frequency_cap", UNSET))
+
         confirm = d.pop("confirm", UNSET)
 
         update_project_settings_body = cls(
@@ -126,6 +172,7 @@ class UpdateProjectSettingsBody:
             daily_send_cap=daily_send_cap,
             utm=utm,
             default_locale=default_locale,
+            frequency_cap=frequency_cap,
             confirm=confirm,
         )
 

@@ -149,9 +149,9 @@ class EmailsResource(Resource):
         """Cancel an email."""
         return self._call(cancel_email, id=id)  # type: ignore[no-any-return]
 
-    def get(self, id: str) -> models.MessageStatus:
+    def get(self, id: str, *, include: str | None = None) -> models.MessageStatus:
         """Get message status."""
-        return self._call(get_message, id=id)  # type: ignore[no-any-return]
+        return self._call(get_message, id=id, include=include)  # type: ignore[no-any-return]
 
     def list(self, *, status: str | None = None, to: str | None = None, limit: int | None = None, cursor: str | None = None) -> models.ListEmailsResponse200:
         """List sent emails."""
@@ -285,9 +285,9 @@ class TemplatesResource(Resource):
         """Publish a version."""
         return self._call(publish_template_version, slug=slug, body={"version": version})  # type: ignore[no-any-return]
 
-    def render(self, slug: str, *, version: int | None = None, props: dict[str, Any] | None = None) -> models.RenderTemplateResponse200:
+    def render(self, slug: str, *, version: int | None = None, props: dict[str, Any] | None = None, as_sent: bool | None = None, check_links: bool | None = None) -> models.RenderTemplateResponse200:
         """Render a template."""
-        return self._call(render_template, slug=slug, body={"version": version, "props": props})  # type: ignore[no-any-return]
+        return self._call(render_template, slug=slug, body={"version": version, "props": props, "as_sent": as_sent, "check_links": check_links})  # type: ignore[no-any-return]
 
     def test(self, slug: str, *, to: str, version: int | None = None, props: dict[str, Any] | None = None) -> models.SendTemplateTestResponse201:
         """Send a test email."""
@@ -301,9 +301,9 @@ class TemplatesResource(Resource):
         """Edit a template."""
         return self._call(update_template, slug=slug, body={"subject": subject, "tsx_source": tsx_source, "variables": variables, "name": name, "category": category, "variant_key": variant_key})  # type: ignore[no-any-return]
 
-    def update_meta(self, slug: str, *, subject: str | None = None, preview_text: str | None = None, sender_id: Any | None = None) -> models.UpdateTemplateMetaResponse200:
-        """Edit subject, preview text, or sender."""
-        return self._call(update_template_meta, slug=slug, body={"subject": subject, "preview_text": preview_text, "sender_id": sender_id})  # type: ignore[no-any-return]
+    def update_meta(self, slug: str, *, subject: str | None = None, preview_text: str | None = None, sender_id: Any | None = None, description: str | None = None) -> models.UpdateTemplateMetaResponse200:
+        """Edit subject, preview text, sender, or description."""
+        return self._call(update_template_meta, slug=slug, body={"subject": subject, "preview_text": preview_text, "sender_id": sender_id, "description": description})  # type: ignore[no-any-return]
 
 
 class AutomationsResource(Resource):
@@ -319,9 +319,9 @@ class AutomationsResource(Resource):
         """Catch up enrollments missed while paused."""
         return self._call(backfill_missed_enrollments, id=id, body={"since": since, "dry_run": dry_run, "max_contacts": max_contacts})  # type: ignore[no-any-return]
 
-    def create(self, *, name: str, trigger_event: str, trigger_filter: Any | None = None, priority: int | None = None, exclusive: bool | None = None, exit_events: builtins.list[Any] | None = None, exit_event: str | None = None, allow_reenrollment: bool | None = None, reenrollment_cooldown_seconds: int | None = None, steps: builtins.list[Any] | None = None, idempotency_key: str | None = None) -> models.CreateAutomationResponse201:
+    def create(self, *, name: str, trigger_event: str, trigger_filter: Any | None = None, priority: int | None = None, exclusive: bool | None = None, exit_events: builtins.list[Any] | None = None, exit_event: str | None = None, exit_filters: dict[str, Any] | None = None, allow_reenrollment: bool | None = None, reenrollment_cooldown_seconds: int | None = None, steps: builtins.list[Any] | None = None, idempotency_key: str | None = None) -> models.CreateAutomationResponse201:
         """Create an automation."""
-        return self._call(create_automation, body={"name": name, "trigger_event": trigger_event, "trigger_filter": trigger_filter, "priority": priority, "exclusive": exclusive, "exit_events": exit_events, "exit_event": exit_event, "allow_reenrollment": allow_reenrollment, "reenrollment_cooldown_seconds": reenrollment_cooldown_seconds, "steps": steps}, idempotency_key=idempotency_key)  # type: ignore[no-any-return]
+        return self._call(create_automation, body={"name": name, "trigger_event": trigger_event, "trigger_filter": trigger_filter, "priority": priority, "exclusive": exclusive, "exit_events": exit_events, "exit_event": exit_event, "exit_filters": exit_filters, "allow_reenrollment": allow_reenrollment, "reenrollment_cooldown_seconds": reenrollment_cooldown_seconds, "steps": steps}, idempotency_key=idempotency_key)  # type: ignore[no-any-return]
 
     def duplicate(self, id: str, *, idempotency_key: str | None = None) -> models.DuplicateAutomationResponse201:
         """Duplicate an automation."""
@@ -369,9 +369,9 @@ class AutomationsResource(Resource):
         """Activate or pause."""
         return self._call(set_automation_status, id=id, body={"status": status, "confirm": confirm})  # type: ignore[no-any-return]
 
-    def update(self, id: str, *, name: str | None = None, trigger_event: str | None = None, trigger_filter: Any | None = None, priority: int | None = None, exclusive: bool | None = None, exit_events: Any | None = None, exit_event: Any | None = None, allow_reenrollment: bool | None = None, reenrollment_cooldown_seconds: int | None = None) -> models.UpdateAutomationResponse200:
+    def update(self, id: str, *, name: str | None = None, trigger_event: str | None = None, trigger_filter: Any | None = None, priority: int | None = None, exclusive: bool | None = None, exit_events: Any | None = None, exit_event: Any | None = None, exit_filters: Any | None = None, bypass_frequency_cap: bool | None = None, allow_reenrollment: bool | None = None, reenrollment_cooldown_seconds: int | None = None) -> models.UpdateAutomationResponse200:
         """Edit an automation."""
-        return self._call(update_automation, id=id, body={"name": name, "trigger_event": trigger_event, "trigger_filter": trigger_filter, "priority": priority, "exclusive": exclusive, "exit_events": exit_events, "exit_event": exit_event, "allow_reenrollment": allow_reenrollment, "reenrollment_cooldown_seconds": reenrollment_cooldown_seconds})  # type: ignore[no-any-return]
+        return self._call(update_automation, id=id, body={"name": name, "trigger_event": trigger_event, "trigger_filter": trigger_filter, "priority": priority, "exclusive": exclusive, "exit_events": exit_events, "exit_event": exit_event, "exit_filters": exit_filters, "bypass_frequency_cap": bypass_frequency_cap, "allow_reenrollment": allow_reenrollment, "reenrollment_cooldown_seconds": reenrollment_cooldown_seconds})  # type: ignore[no-any-return]
 
 
 class DomainsResource(Resource):
@@ -507,9 +507,9 @@ class SettingsResource(Resource):
         """Get the brand kit."""
         return self._call(get_brand)  # type: ignore[no-any-return]
 
-    def update(self, *, sends_paused: bool | None = None, daily_send_cap: int | None = None, utm: Any | None = None, default_locale: Any | None = None, confirm: bool | None = None) -> models.UpdateProjectSettingsResponse200:
-        """Set the kill switch, daily cap, auto-UTM tagging, or default locale."""
-        return self._call(update_project_settings, body={"sends_paused": sends_paused, "daily_send_cap": daily_send_cap, "utm": utm, "default_locale": default_locale, "confirm": confirm})  # type: ignore[no-any-return]
+    def update(self, *, sends_paused: bool | None = None, daily_send_cap: int | None = None, utm: Any | None = None, default_locale: Any | None = None, frequency_cap: Any | None = None, confirm: bool | None = None) -> models.UpdateProjectSettingsResponse200:
+        """Set the kill switch, daily cap, frequency cap, auto-UTM tagging, or default locale."""
+        return self._call(update_project_settings, body={"sends_paused": sends_paused, "daily_send_cap": daily_send_cap, "utm": utm, "default_locale": default_locale, "frequency_cap": frequency_cap, "confirm": confirm})  # type: ignore[no-any-return]
 
     def update_brand(self, *, brand: dict[str, Any]) -> models.UpdateBrandResponse200:
         """Update the brand kit or brief."""
@@ -574,9 +574,9 @@ class AsyncEmailsResource(AsyncResource):
         """Cancel an email."""
         return await self._call(cancel_email, id=id)  # type: ignore[no-any-return]
 
-    async def get(self, id: str) -> models.MessageStatus:
+    async def get(self, id: str, *, include: str | None = None) -> models.MessageStatus:
         """Get message status."""
-        return await self._call(get_message, id=id)  # type: ignore[no-any-return]
+        return await self._call(get_message, id=id, include=include)  # type: ignore[no-any-return]
 
     async def list(self, *, status: str | None = None, to: str | None = None, limit: int | None = None, cursor: str | None = None) -> models.ListEmailsResponse200:
         """List sent emails."""
@@ -714,9 +714,9 @@ class AsyncTemplatesResource(AsyncResource):
         """Publish a version."""
         return await self._call(publish_template_version, slug=slug, body={"version": version})  # type: ignore[no-any-return]
 
-    async def render(self, slug: str, *, version: int | None = None, props: dict[str, Any] | None = None) -> models.RenderTemplateResponse200:
+    async def render(self, slug: str, *, version: int | None = None, props: dict[str, Any] | None = None, as_sent: bool | None = None, check_links: bool | None = None) -> models.RenderTemplateResponse200:
         """Render a template."""
-        return await self._call(render_template, slug=slug, body={"version": version, "props": props})  # type: ignore[no-any-return]
+        return await self._call(render_template, slug=slug, body={"version": version, "props": props, "as_sent": as_sent, "check_links": check_links})  # type: ignore[no-any-return]
 
     async def test(self, slug: str, *, to: str, version: int | None = None, props: dict[str, Any] | None = None) -> models.SendTemplateTestResponse201:
         """Send a test email."""
@@ -730,9 +730,9 @@ class AsyncTemplatesResource(AsyncResource):
         """Edit a template."""
         return await self._call(update_template, slug=slug, body={"subject": subject, "tsx_source": tsx_source, "variables": variables, "name": name, "category": category, "variant_key": variant_key})  # type: ignore[no-any-return]
 
-    async def update_meta(self, slug: str, *, subject: str | None = None, preview_text: str | None = None, sender_id: Any | None = None) -> models.UpdateTemplateMetaResponse200:
-        """Edit subject, preview text, or sender."""
-        return await self._call(update_template_meta, slug=slug, body={"subject": subject, "preview_text": preview_text, "sender_id": sender_id})  # type: ignore[no-any-return]
+    async def update_meta(self, slug: str, *, subject: str | None = None, preview_text: str | None = None, sender_id: Any | None = None, description: str | None = None) -> models.UpdateTemplateMetaResponse200:
+        """Edit subject, preview text, sender, or description."""
+        return await self._call(update_template_meta, slug=slug, body={"subject": subject, "preview_text": preview_text, "sender_id": sender_id, "description": description})  # type: ignore[no-any-return]
 
 
 class AsyncAutomationsResource(AsyncResource):
@@ -748,9 +748,9 @@ class AsyncAutomationsResource(AsyncResource):
         """Catch up enrollments missed while paused."""
         return await self._call(backfill_missed_enrollments, id=id, body={"since": since, "dry_run": dry_run, "max_contacts": max_contacts})  # type: ignore[no-any-return]
 
-    async def create(self, *, name: str, trigger_event: str, trigger_filter: Any | None = None, priority: int | None = None, exclusive: bool | None = None, exit_events: builtins.list[Any] | None = None, exit_event: str | None = None, allow_reenrollment: bool | None = None, reenrollment_cooldown_seconds: int | None = None, steps: builtins.list[Any] | None = None, idempotency_key: str | None = None) -> models.CreateAutomationResponse201:
+    async def create(self, *, name: str, trigger_event: str, trigger_filter: Any | None = None, priority: int | None = None, exclusive: bool | None = None, exit_events: builtins.list[Any] | None = None, exit_event: str | None = None, exit_filters: dict[str, Any] | None = None, allow_reenrollment: bool | None = None, reenrollment_cooldown_seconds: int | None = None, steps: builtins.list[Any] | None = None, idempotency_key: str | None = None) -> models.CreateAutomationResponse201:
         """Create an automation."""
-        return await self._call(create_automation, body={"name": name, "trigger_event": trigger_event, "trigger_filter": trigger_filter, "priority": priority, "exclusive": exclusive, "exit_events": exit_events, "exit_event": exit_event, "allow_reenrollment": allow_reenrollment, "reenrollment_cooldown_seconds": reenrollment_cooldown_seconds, "steps": steps}, idempotency_key=idempotency_key)  # type: ignore[no-any-return]
+        return await self._call(create_automation, body={"name": name, "trigger_event": trigger_event, "trigger_filter": trigger_filter, "priority": priority, "exclusive": exclusive, "exit_events": exit_events, "exit_event": exit_event, "exit_filters": exit_filters, "allow_reenrollment": allow_reenrollment, "reenrollment_cooldown_seconds": reenrollment_cooldown_seconds, "steps": steps}, idempotency_key=idempotency_key)  # type: ignore[no-any-return]
 
     async def duplicate(self, id: str, *, idempotency_key: str | None = None) -> models.DuplicateAutomationResponse201:
         """Duplicate an automation."""
@@ -799,9 +799,9 @@ class AsyncAutomationsResource(AsyncResource):
         """Activate or pause."""
         return await self._call(set_automation_status, id=id, body={"status": status, "confirm": confirm})  # type: ignore[no-any-return]
 
-    async def update(self, id: str, *, name: str | None = None, trigger_event: str | None = None, trigger_filter: Any | None = None, priority: int | None = None, exclusive: bool | None = None, exit_events: Any | None = None, exit_event: Any | None = None, allow_reenrollment: bool | None = None, reenrollment_cooldown_seconds: int | None = None) -> models.UpdateAutomationResponse200:
+    async def update(self, id: str, *, name: str | None = None, trigger_event: str | None = None, trigger_filter: Any | None = None, priority: int | None = None, exclusive: bool | None = None, exit_events: Any | None = None, exit_event: Any | None = None, exit_filters: Any | None = None, bypass_frequency_cap: bool | None = None, allow_reenrollment: bool | None = None, reenrollment_cooldown_seconds: int | None = None) -> models.UpdateAutomationResponse200:
         """Edit an automation."""
-        return await self._call(update_automation, id=id, body={"name": name, "trigger_event": trigger_event, "trigger_filter": trigger_filter, "priority": priority, "exclusive": exclusive, "exit_events": exit_events, "exit_event": exit_event, "allow_reenrollment": allow_reenrollment, "reenrollment_cooldown_seconds": reenrollment_cooldown_seconds})  # type: ignore[no-any-return]
+        return await self._call(update_automation, id=id, body={"name": name, "trigger_event": trigger_event, "trigger_filter": trigger_filter, "priority": priority, "exclusive": exclusive, "exit_events": exit_events, "exit_event": exit_event, "exit_filters": exit_filters, "bypass_frequency_cap": bypass_frequency_cap, "allow_reenrollment": allow_reenrollment, "reenrollment_cooldown_seconds": reenrollment_cooldown_seconds})  # type: ignore[no-any-return]
 
 
 class AsyncDomainsResource(AsyncResource):
@@ -937,9 +937,9 @@ class AsyncSettingsResource(AsyncResource):
         """Get the brand kit."""
         return await self._call(get_brand)  # type: ignore[no-any-return]
 
-    async def update(self, *, sends_paused: bool | None = None, daily_send_cap: int | None = None, utm: Any | None = None, default_locale: Any | None = None, confirm: bool | None = None) -> models.UpdateProjectSettingsResponse200:
-        """Set the kill switch, daily cap, auto-UTM tagging, or default locale."""
-        return await self._call(update_project_settings, body={"sends_paused": sends_paused, "daily_send_cap": daily_send_cap, "utm": utm, "default_locale": default_locale, "confirm": confirm})  # type: ignore[no-any-return]
+    async def update(self, *, sends_paused: bool | None = None, daily_send_cap: int | None = None, utm: Any | None = None, default_locale: Any | None = None, frequency_cap: Any | None = None, confirm: bool | None = None) -> models.UpdateProjectSettingsResponse200:
+        """Set the kill switch, daily cap, frequency cap, auto-UTM tagging, or default locale."""
+        return await self._call(update_project_settings, body={"sends_paused": sends_paused, "daily_send_cap": daily_send_cap, "utm": utm, "default_locale": default_locale, "frequency_cap": frequency_cap, "confirm": confirm})  # type: ignore[no-any-return]
 
     async def update_brand(self, *, brand: dict[str, Any]) -> models.UpdateBrandResponse200:
         """Update the brand kit or brief."""

@@ -93,9 +93,10 @@ def sync_detailed(
 ) -> Response[Error | RenderTemplateResponse200]:
     """Render a template
 
-     Compiles and renders a version and returns the HTML, plain text and subject. No side effects —
-    nothing is sent. This is the authoring inner loop: compile and render failures come back as
-    `invalid_request` carrying the verbatim diagnostics, so you can fix the source and retry.
+     Compiles and renders a version and returns the HTML, plain text and subject — by default exactly as
+    a send would deliver it, footer and List-Unsubscribe headers included. No side effects — nothing is
+    sent. This is the authoring inner loop: compile and render failures come back as `invalid_request`
+    carrying the verbatim diagnostics, so you can fix the source and retry.
 
     Args:
         slug (str):
@@ -129,9 +130,10 @@ def sync(
 ) -> Error | RenderTemplateResponse200 | None:
     """Render a template
 
-     Compiles and renders a version and returns the HTML, plain text and subject. No side effects —
-    nothing is sent. This is the authoring inner loop: compile and render failures come back as
-    `invalid_request` carrying the verbatim diagnostics, so you can fix the source and retry.
+     Compiles and renders a version and returns the HTML, plain text and subject — by default exactly as
+    a send would deliver it, footer and List-Unsubscribe headers included. No side effects — nothing is
+    sent. This is the authoring inner loop: compile and render failures come back as `invalid_request`
+    carrying the verbatim diagnostics, so you can fix the source and retry.
 
     Args:
         slug (str):
@@ -160,9 +162,10 @@ async def asyncio_detailed(
 ) -> Response[Error | RenderTemplateResponse200]:
     """Render a template
 
-     Compiles and renders a version and returns the HTML, plain text and subject. No side effects —
-    nothing is sent. This is the authoring inner loop: compile and render failures come back as
-    `invalid_request` carrying the verbatim diagnostics, so you can fix the source and retry.
+     Compiles and renders a version and returns the HTML, plain text and subject — by default exactly as
+    a send would deliver it, footer and List-Unsubscribe headers included. No side effects — nothing is
+    sent. This is the authoring inner loop: compile and render failures come back as `invalid_request`
+    carrying the verbatim diagnostics, so you can fix the source and retry.
 
     Args:
         slug (str):
@@ -194,9 +197,10 @@ async def asyncio(
 ) -> Error | RenderTemplateResponse200 | None:
     """Render a template
 
-     Compiles and renders a version and returns the HTML, plain text and subject. No side effects —
-    nothing is sent. This is the authoring inner loop: compile and render failures come back as
-    `invalid_request` carrying the verbatim diagnostics, so you can fix the source and retry.
+     Compiles and renders a version and returns the HTML, plain text and subject — by default exactly as
+    a send would deliver it, footer and List-Unsubscribe headers included. No side effects — nothing is
+    sent. This is the authoring inner loop: compile and render failures come back as `invalid_request`
+    carrying the verbatim diagnostics, so you can fix the source and retry.
 
     Args:
         slug (str):

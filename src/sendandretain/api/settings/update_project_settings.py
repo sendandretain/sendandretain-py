@@ -80,7 +80,7 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: UpdateProjectSettingsBody,
 ) -> Response[Error | UpdateProjectSettingsResponse200]:
-    """Set the kill switch, daily cap, auto-UTM tagging, or default locale
+    """Set the kill switch, daily cap, frequency cap, auto-UTM tagging, or default locale
 
      `sends_paused: true` stops **all** sending for this project — API, automations and copilot alike —
     and is re-checked on the worker path, so it stops queued mail too, not just new calls. Because of
@@ -116,7 +116,7 @@ def sync(
     client: AuthenticatedClient,
     body: UpdateProjectSettingsBody,
 ) -> Error | UpdateProjectSettingsResponse200 | None:
-    """Set the kill switch, daily cap, auto-UTM tagging, or default locale
+    """Set the kill switch, daily cap, frequency cap, auto-UTM tagging, or default locale
 
      `sends_paused: true` stops **all** sending for this project — API, automations and copilot alike —
     and is re-checked on the worker path, so it stops queued mail too, not just new calls. Because of
@@ -147,7 +147,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: UpdateProjectSettingsBody,
 ) -> Response[Error | UpdateProjectSettingsResponse200]:
-    """Set the kill switch, daily cap, auto-UTM tagging, or default locale
+    """Set the kill switch, daily cap, frequency cap, auto-UTM tagging, or default locale
 
      `sends_paused: true` stops **all** sending for this project — API, automations and copilot alike —
     and is re-checked on the worker path, so it stops queued mail too, not just new calls. Because of
@@ -181,7 +181,7 @@ async def asyncio(
     client: AuthenticatedClient,
     body: UpdateProjectSettingsBody,
 ) -> Error | UpdateProjectSettingsResponse200 | None:
-    """Set the kill switch, daily cap, auto-UTM tagging, or default locale
+    """Set the kill switch, daily cap, frequency cap, auto-UTM tagging, or default locale
 
      `sends_paused: true` stops **all** sending for this project — API, automations and copilot alike —
     and is re-checked on the worker path, so it stops queued mail too, not just new calls. Because of

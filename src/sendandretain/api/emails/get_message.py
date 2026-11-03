@@ -7,19 +7,33 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error import Error
+from ...models.get_message_include import GetMessageInclude
 from ...models.message_status import MessageStatus
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     id: str,
+    *,
+    include: GetMessageInclude | Unset = UNSET,
 ) -> dict[str, Any]:
+
+    params: dict[str, Any] = {}
+
+    json_include: str | Unset = UNSET
+    if not isinstance(include, Unset):
+        json_include = include.value
+
+    params["include"] = json_include
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/api/v1/emails/{id}".format(
             id=quote(str(id), safe=""),
         ),
+        "params": params,
     }
 
     return _kwargs
@@ -72,13 +86,16 @@ def sync_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
+    include: GetMessageInclude | Unset = UNSET,
 ) -> Response[Error | MessageStatus]:
     """Get message status
 
-     Returns a message's current status and its provider event timeline. Requires a `write`-scope key.
+     Returns a message's current status, its event timeline, and `wire` — the headers it went out with
+    (and, with `?include=body`, the HTML and text as sent). Requires a `write`-scope key.
 
     Args:
         id (str):
+        include (GetMessageInclude | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -90,6 +107,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+        include=include,
     )
 
     response = client.get_httpx_client().request(
@@ -103,13 +121,16 @@ def sync(
     id: str,
     *,
     client: AuthenticatedClient,
+    include: GetMessageInclude | Unset = UNSET,
 ) -> Error | MessageStatus | None:
     """Get message status
 
-     Returns a message's current status and its provider event timeline. Requires a `write`-scope key.
+     Returns a message's current status, its event timeline, and `wire` — the headers it went out with
+    (and, with `?include=body`, the HTML and text as sent). Requires a `write`-scope key.
 
     Args:
         id (str):
+        include (GetMessageInclude | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -122,6 +143,7 @@ def sync(
     return sync_detailed(
         id=id,
         client=client,
+        include=include,
     ).parsed
 
 
@@ -129,13 +151,16 @@ async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
+    include: GetMessageInclude | Unset = UNSET,
 ) -> Response[Error | MessageStatus]:
     """Get message status
 
-     Returns a message's current status and its provider event timeline. Requires a `write`-scope key.
+     Returns a message's current status, its event timeline, and `wire` — the headers it went out with
+    (and, with `?include=body`, the HTML and text as sent). Requires a `write`-scope key.
 
     Args:
         id (str):
+        include (GetMessageInclude | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -147,6 +172,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+        include=include,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -158,13 +184,16 @@ async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient,
+    include: GetMessageInclude | Unset = UNSET,
 ) -> Error | MessageStatus | None:
     """Get message status
 
-     Returns a message's current status and its provider event timeline. Requires a `write`-scope key.
+     Returns a message's current status, its event timeline, and `wire` — the headers it went out with
+    (and, with `?include=body`, the HTML and text as sent). Requires a `write`-scope key.
 
     Args:
         id (str):
+        include (GetMessageInclude | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -178,5 +207,6 @@ async def asyncio(
         await asyncio_detailed(
             id=id,
             client=client,
+            include=include,
         )
     ).parsed

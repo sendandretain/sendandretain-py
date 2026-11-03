@@ -48,11 +48,26 @@ from .archive_template_response_200 import ArchiveTemplateResponse200
 from .automations_id_ab_test_post_request_body_content_application_json_variants_variant_0_item import (
     AutomationsIdAbTestPostRequestBodyContentApplicationJsonVariantsVariant0Item,
 )
+from .automations_id_patch_request_body_content_application_json_exit_filters_variant_0 import (
+    AutomationsIdPatchRequestBodyContentApplicationJsonExitFiltersVariant0,
+)
+from .automations_id_patch_request_body_content_application_json_exit_filters_variant_0_additional_properties_variant_0_item import (
+    AutomationsIdPatchRequestBodyContentApplicationJsonExitFiltersVariant0AdditionalPropertiesVariant0Item,
+)
+from .automations_id_patch_request_body_content_application_json_exit_filters_variant_0_additional_properties_variant_0_item_op import (
+    AutomationsIdPatchRequestBodyContentApplicationJsonExitFiltersVariant0AdditionalPropertiesVariant0ItemOp,
+)
 from .automations_id_patch_request_body_content_application_json_trigger_filter_variant_0_variant_0_item import (
     AutomationsIdPatchRequestBodyContentApplicationJsonTriggerFilterVariant0Variant0Item,
 )
 from .automations_id_patch_request_body_content_application_json_trigger_filter_variant_0_variant_0_item_op import (
     AutomationsIdPatchRequestBodyContentApplicationJsonTriggerFilterVariant0Variant0ItemOp,
+)
+from .automations_post_request_body_content_application_json_exit_filters_additional_properties_variant_0_item import (
+    AutomationsPostRequestBodyContentApplicationJsonExitFiltersAdditionalPropertiesVariant0Item,
+)
+from .automations_post_request_body_content_application_json_exit_filters_additional_properties_variant_0_item_op import (
+    AutomationsPostRequestBodyContentApplicationJsonExitFiltersAdditionalPropertiesVariant0ItemOp,
 )
 from .automations_post_request_body_content_application_json_trigger_filter_variant_0_item import (
     AutomationsPostRequestBodyContentApplicationJsonTriggerFilterVariant0Item,
@@ -78,6 +93,7 @@ from .cancel_email_response_200 import CancelEmailResponse200
 from .cancel_email_response_200_status import CancelEmailResponse200Status
 from .contact_result import ContactResult
 from .create_automation_body import CreateAutomationBody
+from .create_automation_body_exit_filters import CreateAutomationBodyExitFilters
 from .create_automation_response_201 import CreateAutomationResponse201
 from .create_automation_response_201_status import CreateAutomationResponse201Status
 from .create_automation_schema_0 import CreateAutomationSchema0
@@ -165,8 +181,14 @@ from .get_automation_metrics_response_200_by_step import GetAutomationMetricsRes
 from .get_automation_metrics_response_200_by_variant import GetAutomationMetricsResponse200ByVariant
 from .get_automation_metrics_response_200_run_counts import GetAutomationMetricsResponse200RunCounts
 from .get_automation_response_200 import GetAutomationResponse200
+from .get_automation_response_200_exit_filters import GetAutomationResponse200ExitFilters
+from .get_automation_response_200_settings import GetAutomationResponse200Settings
 from .get_automation_response_200_steps_item import GetAutomationResponse200StepsItem
 from .get_automation_response_200_steps_item_config_type_0 import GetAutomationResponse200StepsItemConfigType0
+from .get_automation_response_200_steps_item_props_overrides import GetAutomationResponse200StepsItemPropsOverrides
+from .get_automation_response_200_steps_item_send_window_type_0 import GetAutomationResponse200StepsItemSendWindowType0
+from .get_automation_response_200_steps_item_template_type_0 import GetAutomationResponse200StepsItemTemplateType0
+from .get_automation_response_200_trigger_schedule_type_0 import GetAutomationResponse200TriggerScheduleType0
 from .get_brand_response_200 import GetBrandResponse200
 from .get_brand_response_200_brand import GetBrandResponse200Brand
 from .get_connection_status_response_200 import GetConnectionStatusResponse200
@@ -174,6 +196,7 @@ from .get_connection_status_response_200_domains_item import GetConnectionStatus
 from .get_connection_status_response_200_provider_type_0 import GetConnectionStatusResponse200ProviderType0
 from .get_connection_status_response_200_senders_item import GetConnectionStatusResponse200SendersItem
 from .get_contact_response_200 import GetContactResponse200
+from .get_message_include import GetMessageInclude
 from .get_metrics_response_200 import GetMetricsResponse200
 from .get_metrics_response_200_by_day import GetMetricsResponse200ByDay
 from .get_metrics_response_200_by_template import GetMetricsResponse200ByTemplate
@@ -186,6 +209,7 @@ from .get_metrics_trends_response_200_totals import GetMetricsTrendsResponse200T
 from .get_onboarding_steps_response_200 import GetOnboardingStepsResponse200
 from .get_onboarding_steps_response_200_steps_item import GetOnboardingStepsResponse200StepsItem
 from .get_project_settings_response_200 import GetProjectSettingsResponse200
+from .get_project_settings_response_200_frequency_cap_type_0 import GetProjectSettingsResponse200FrequencyCapType0
 from .get_project_settings_response_200_utm_type_0 import GetProjectSettingsResponse200UtmType0
 from .get_queue_health_response_200 import GetQueueHealthResponse200
 from .get_template_response_200 import GetTemplateResponse200
@@ -248,6 +272,8 @@ from .list_webhook_endpoints_response_200_data_item import ListWebhookEndpointsR
 from .list_webhook_endpoints_response_200_object import ListWebhookEndpointsResponse200Object
 from .message_status import MessageStatus
 from .message_status_events_item import MessageStatusEventsItem
+from .message_status_wire_type_0 import MessageStatusWireType0
+from .message_status_wire_type_0_headers import MessageStatusWireType0Headers
 from .move_automation_step_body import MoveAutomationStepBody
 from .move_automation_step_body_direction import MoveAutomationStepBodyDirection
 from .move_automation_step_response_200 import MoveAutomationStepResponse200
@@ -266,6 +292,8 @@ from .remove_suppression_response_200 import RemoveSuppressionResponse200
 from .render_template_body import RenderTemplateBody
 from .render_template_body_props import RenderTemplateBodyProps
 from .render_template_response_200 import RenderTemplateResponse200
+from .render_template_response_200_headers import RenderTemplateResponse200Headers
+from .render_template_response_200_link_check import RenderTemplateResponse200LinkCheck
 from .render_template_response_200_props_used import RenderTemplateResponse200PropsUsed
 from .replay_webhook_delivery_response_202 import ReplayWebhookDeliveryResponse202
 from .reschedule_email_body import RescheduleEmailBody
@@ -297,6 +325,9 @@ from .set_ab_test_response_200 import SetAbTestResponse200
 from .set_automation_status_body import SetAutomationStatusBody
 from .set_automation_status_body_status import SetAutomationStatusBodyStatus
 from .set_automation_status_response_200 import SetAutomationStatusResponse200
+from .settings_patch_request_body_content_application_json_frequency_cap_variant_0 import (
+    SettingsPatchRequestBodyContentApplicationJsonFrequencyCapVariant0,
+)
 from .settings_patch_request_body_content_application_json_utm_variant_0 import (
     SettingsPatchRequestBodyContentApplicationJsonUtmVariant0,
 )
@@ -339,6 +370,7 @@ from .update_brand_response_200 import UpdateBrandResponse200
 from .update_brand_response_200_brand import UpdateBrandResponse200Brand
 from .update_project_settings_body import UpdateProjectSettingsBody
 from .update_project_settings_response_200 import UpdateProjectSettingsResponse200
+from .update_project_settings_response_200_frequency_cap_type_0 import UpdateProjectSettingsResponse200FrequencyCapType0
 from .update_project_settings_response_200_utm_type_0 import UpdateProjectSettingsResponse200UtmType0
 from .update_segment_body import UpdateSegmentBody
 from .update_segment_body_filter_item import UpdateSegmentBodyFilterItem
@@ -469,8 +501,13 @@ __all__ = (
     "ArchiveAutomationResponse200",
     "ArchiveTemplateResponse200",
     "AutomationsIdAbTestPostRequestBodyContentApplicationJsonVariantsVariant0Item",
+    "AutomationsIdPatchRequestBodyContentApplicationJsonExitFiltersVariant0",
+    "AutomationsIdPatchRequestBodyContentApplicationJsonExitFiltersVariant0AdditionalPropertiesVariant0Item",
+    "AutomationsIdPatchRequestBodyContentApplicationJsonExitFiltersVariant0AdditionalPropertiesVariant0ItemOp",
     "AutomationsIdPatchRequestBodyContentApplicationJsonTriggerFilterVariant0Variant0Item",
     "AutomationsIdPatchRequestBodyContentApplicationJsonTriggerFilterVariant0Variant0ItemOp",
+    "AutomationsPostRequestBodyContentApplicationJsonExitFiltersAdditionalPropertiesVariant0Item",
+    "AutomationsPostRequestBodyContentApplicationJsonExitFiltersAdditionalPropertiesVariant0ItemOp",
     "AutomationsPostRequestBodyContentApplicationJsonTriggerFilterVariant0Item",
     "AutomationsPostRequestBodyContentApplicationJsonTriggerFilterVariant0ItemOp",
     "AutomationsStepsPutRequestBodyContentApplicationJsonPatchBranchesFilterVariant0Item",
@@ -483,6 +520,7 @@ __all__ = (
     "CancelEmailResponse200Status",
     "ContactResult",
     "CreateAutomationBody",
+    "CreateAutomationBodyExitFilters",
     "CreateAutomationResponse201",
     "CreateAutomationResponse201Status",
     "CreateAutomationSchema0",
@@ -560,8 +598,14 @@ __all__ = (
     "GetAutomationMetricsResponse200ByVariant",
     "GetAutomationMetricsResponse200RunCounts",
     "GetAutomationResponse200",
+    "GetAutomationResponse200ExitFilters",
+    "GetAutomationResponse200Settings",
     "GetAutomationResponse200StepsItem",
     "GetAutomationResponse200StepsItemConfigType0",
+    "GetAutomationResponse200StepsItemPropsOverrides",
+    "GetAutomationResponse200StepsItemSendWindowType0",
+    "GetAutomationResponse200StepsItemTemplateType0",
+    "GetAutomationResponse200TriggerScheduleType0",
     "GetBrandResponse200",
     "GetBrandResponse200Brand",
     "GetConnectionStatusResponse200",
@@ -569,6 +613,7 @@ __all__ = (
     "GetConnectionStatusResponse200ProviderType0",
     "GetConnectionStatusResponse200SendersItem",
     "GetContactResponse200",
+    "GetMessageInclude",
     "GetMetricsResponse200",
     "GetMetricsResponse200ByDay",
     "GetMetricsResponse200ByTemplate",
@@ -581,6 +626,7 @@ __all__ = (
     "GetOnboardingStepsResponse200",
     "GetOnboardingStepsResponse200StepsItem",
     "GetProjectSettingsResponse200",
+    "GetProjectSettingsResponse200FrequencyCapType0",
     "GetProjectSettingsResponse200UtmType0",
     "GetQueueHealthResponse200",
     "GetTemplateResponse200",
@@ -641,6 +687,8 @@ __all__ = (
     "ListWebhookEndpointsResponse200Object",
     "MessageStatus",
     "MessageStatusEventsItem",
+    "MessageStatusWireType0",
+    "MessageStatusWireType0Headers",
     "MoveAutomationStepBody",
     "MoveAutomationStepBodyDirection",
     "MoveAutomationStepResponse200",
@@ -659,6 +707,8 @@ __all__ = (
     "RenderTemplateBody",
     "RenderTemplateBodyProps",
     "RenderTemplateResponse200",
+    "RenderTemplateResponse200Headers",
+    "RenderTemplateResponse200LinkCheck",
     "RenderTemplateResponse200PropsUsed",
     "ReplayWebhookDeliveryResponse202",
     "RescheduleEmailBody",
@@ -690,6 +740,7 @@ __all__ = (
     "SetAutomationStatusBody",
     "SetAutomationStatusBodyStatus",
     "SetAutomationStatusResponse200",
+    "SettingsPatchRequestBodyContentApplicationJsonFrequencyCapVariant0",
     "SettingsPatchRequestBodyContentApplicationJsonUtmVariant0",
     "SettingsPatchRequestBodyContentApplicationJsonUtmVariant0Params",
     "SyncAutomationStepPropsBody",
@@ -726,6 +777,7 @@ __all__ = (
     "UpdateBrandResponse200Brand",
     "UpdateProjectSettingsBody",
     "UpdateProjectSettingsResponse200",
+    "UpdateProjectSettingsResponse200FrequencyCapType0",
     "UpdateProjectSettingsResponse200UtmType0",
     "UpdateSegmentBody",
     "UpdateSegmentBodyFilterItem",

@@ -16,9 +16,10 @@ T = TypeVar("T", bound="AddAutomationStepsSchema1ConditionsVariant0")
 class AddAutomationStepsSchema1ConditionsVariant0:
     """
     Attributes:
-        path (str): contact.attributes.<key>, contact.engagement.<key>, contact.subscriptionStatus, or
-            event.properties.<key> (bare = event property). Engagement fields: emailsReceived, emailsSinceEngaged,
-            daysSinceEngaged, openCount, clickCount, openRate, clickRate, lastOpenedAt, lastClickedAt.
+        path (str): contact.attributes.<key>, contact.engagement.<key>, contact.subscriptionStatus, contact.tags (with
+            op contains / not_contains and a tag as value), or event.properties.<key> (bare = event property). Engagement
+            fields: emailsReceived, emailsSinceEngaged, daysSinceEngaged, openCount, clickCount, openRate, clickRate,
+            lastOpenedAt, lastClickedAt.
         op (AddAutomationStepsSchema1ConditionsVariant0Op | Unset):  Default:
             AddAutomationStepsSchema1ConditionsVariant0Op.EQ.
         value (Any | Unset):

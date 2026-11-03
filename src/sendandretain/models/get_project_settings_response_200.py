@@ -9,6 +9,9 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.get_project_settings_response_200_frequency_cap_type_0 import (
+        GetProjectSettingsResponse200FrequencyCapType0,
+    )
     from ..models.get_project_settings_response_200_utm_type_0 import GetProjectSettingsResponse200UtmType0
 
 
@@ -24,6 +27,7 @@ class GetProjectSettingsResponse200:
         daily_send_cap (int | Unset):
         utm (GetProjectSettingsResponse200UtmType0 | None | Unset):
         default_locale (None | str | Unset):
+        frequency_cap (GetProjectSettingsResponse200FrequencyCapType0 | None | Unset):
         sent_today (int | Unset):
     """
 
@@ -32,10 +36,14 @@ class GetProjectSettingsResponse200:
     daily_send_cap: int | Unset = UNSET
     utm: GetProjectSettingsResponse200UtmType0 | None | Unset = UNSET
     default_locale: None | str | Unset = UNSET
+    frequency_cap: GetProjectSettingsResponse200FrequencyCapType0 | None | Unset = UNSET
     sent_today: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.get_project_settings_response_200_frequency_cap_type_0 import (
+            GetProjectSettingsResponse200FrequencyCapType0,
+        )
         from ..models.get_project_settings_response_200_utm_type_0 import GetProjectSettingsResponse200UtmType0
 
         project_name = self.project_name
@@ -58,6 +66,14 @@ class GetProjectSettingsResponse200:
         else:
             default_locale = self.default_locale
 
+        frequency_cap: dict[str, Any] | None | Unset
+        if isinstance(self.frequency_cap, Unset):
+            frequency_cap = UNSET
+        elif isinstance(self.frequency_cap, GetProjectSettingsResponse200FrequencyCapType0):
+            frequency_cap = self.frequency_cap.to_dict()
+        else:
+            frequency_cap = self.frequency_cap
+
         sent_today = self.sent_today
 
         field_dict: dict[str, Any] = {}
@@ -73,6 +89,8 @@ class GetProjectSettingsResponse200:
             field_dict["utm"] = utm
         if default_locale is not UNSET:
             field_dict["default_locale"] = default_locale
+        if frequency_cap is not UNSET:
+            field_dict["frequency_cap"] = frequency_cap
         if sent_today is not UNSET:
             field_dict["sent_today"] = sent_today
 
@@ -80,6 +98,9 @@ class GetProjectSettingsResponse200:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.get_project_settings_response_200_frequency_cap_type_0 import (
+            GetProjectSettingsResponse200FrequencyCapType0,
+        )
         from ..models.get_project_settings_response_200_utm_type_0 import GetProjectSettingsResponse200UtmType0
 
         d = dict(src_dict)
@@ -115,6 +136,23 @@ class GetProjectSettingsResponse200:
 
         default_locale = _parse_default_locale(d.pop("default_locale", UNSET))
 
+        def _parse_frequency_cap(data: object) -> GetProjectSettingsResponse200FrequencyCapType0 | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                frequency_cap_type_0 = GetProjectSettingsResponse200FrequencyCapType0.from_dict(data)
+
+                return frequency_cap_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(GetProjectSettingsResponse200FrequencyCapType0 | None | Unset, data)
+
+        frequency_cap = _parse_frequency_cap(d.pop("frequency_cap", UNSET))
+
         sent_today = d.pop("sent_today", UNSET)
 
         get_project_settings_response_200 = cls(
@@ -123,6 +161,7 @@ class GetProjectSettingsResponse200:
             daily_send_cap=daily_send_cap,
             utm=utm,
             default_locale=default_locale,
+            frequency_cap=frequency_cap,
             sent_today=sent_today,
         )
 

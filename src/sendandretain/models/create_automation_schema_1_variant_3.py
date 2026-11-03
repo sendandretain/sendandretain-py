@@ -23,6 +23,8 @@ class CreateAutomationSchema1Variant3:
         type_ (Literal['set_attribute']):
         delay_seconds (int): Delay before this step runs (0 = immediate). Weekly = 604800.
         attributes (CreateAutomationSchema1Variant3Attributes | Unset): Attributes to shallow-merge onto the contact.
+            The value "$now" writes the ISO time the step runs — pair it with `within_days` to ask "did this happen in the
+            last N days?".
         add_tags (list[str] | Unset): Tags to add — segments filtering on contact.tags follow automatically.
         remove_tags (list[str] | Unset): Tags to remove.
         send_window (CreateAutomationSchema1Variant3SendWindow | Unset): Quiet-hours clamp; contact.attributes.timezone

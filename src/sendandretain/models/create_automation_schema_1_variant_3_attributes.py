@@ -11,7 +11,10 @@ T = TypeVar("T", bound="CreateAutomationSchema1Variant3Attributes")
 
 @_attrs_define
 class CreateAutomationSchema1Variant3Attributes:
-    """Attributes to shallow-merge onto the contact."""
+    """Attributes to shallow-merge onto the contact. The value "$now" writes the ISO time the step runs — pair it with
+    `within_days` to ask "did this happen in the last N days?".
+
+    """
 
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 

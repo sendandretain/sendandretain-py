@@ -71,8 +71,8 @@ def sync_detailed(
 ) -> Response[Error | GetProjectSettingsResponse200]:
     """Get sending guardrails
 
-     The kill switch, the daily cap, the auto-UTM config, the default locale, and how many messages went
-    out today.
+     The kill switch, the daily cap, the per-contact frequency cap, the auto-UTM config, the default
+    locale, and how many messages went out today.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -97,8 +97,8 @@ def sync(
 ) -> Error | GetProjectSettingsResponse200 | None:
     """Get sending guardrails
 
-     The kill switch, the daily cap, the auto-UTM config, the default locale, and how many messages went
-    out today.
+     The kill switch, the daily cap, the per-contact frequency cap, the auto-UTM config, the default
+    locale, and how many messages went out today.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -119,8 +119,8 @@ async def asyncio_detailed(
 ) -> Response[Error | GetProjectSettingsResponse200]:
     """Get sending guardrails
 
-     The kill switch, the daily cap, the auto-UTM config, the default locale, and how many messages went
-    out today.
+     The kill switch, the daily cap, the per-contact frequency cap, the auto-UTM config, the default
+    locale, and how many messages went out today.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -143,8 +143,8 @@ async def asyncio(
 ) -> Error | GetProjectSettingsResponse200 | None:
     """Get sending guardrails
 
-     The kill switch, the daily cap, the auto-UTM config, the default locale, and how many messages went
-    out today.
+     The kill switch, the daily cap, the per-contact frequency cap, the auto-UTM config, the default
+    locale, and how many messages went out today.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

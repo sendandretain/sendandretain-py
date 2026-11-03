@@ -12,6 +12,7 @@ if TYPE_CHECKING:
     from ..models.automations_post_request_body_content_application_json_trigger_filter_variant_0_item import (
         AutomationsPostRequestBodyContentApplicationJsonTriggerFilterVariant0Item,
     )
+    from ..models.create_automation_body_exit_filters import CreateAutomationBodyExitFilters
     from ..models.create_automation_schema_0 import CreateAutomationSchema0
     from ..models.create_automation_schema_1_variant_0 import CreateAutomationSchema1Variant0
     from ..models.create_automation_schema_1_variant_1 import CreateAutomationSchema1Variant1
@@ -39,6 +40,9 @@ class CreateAutomationBody:
         exclusive (bool | Unset): When true (default), a contact already in this automation is not re-enrolled.
         exit_events (list[str] | Unset): Events that end an in-flight run early, ORed.
         exit_event (str | Unset): Deprecated single-event form, still accepted. Prefer `exit_events`.
+        exit_filters (CreateAutomationBodyExitFilters | Unset): Per-exit filters keyed by exit event name, e.g. {
+            "team.plan_changed": [{ path: "event.properties.plan", op: "eq", value: "paid" }] } — that exit then fires only
+            on a paid plan. Each key must also be in exitEvents.
         allow_reenrollment (bool | Unset): Allow a contact to enroll again after finishing.
         reenrollment_cooldown_seconds (int | Unset):
         steps (list[CreateAutomationSchema1Variant0 | CreateAutomationSchema1Variant1 | CreateAutomationSchema1Variant2
@@ -58,6 +62,7 @@ class CreateAutomationBody:
     exclusive: bool | Unset = UNSET
     exit_events: list[str] | Unset = UNSET
     exit_event: str | Unset = UNSET
+    exit_filters: CreateAutomationBodyExitFilters | Unset = UNSET
     allow_reenrollment: bool | Unset = UNSET
     reenrollment_cooldown_seconds: int | Unset = UNSET
     steps: (
@@ -112,6 +117,10 @@ class CreateAutomationBody:
 
         exit_event = self.exit_event
 
+        exit_filters: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.exit_filters, Unset):
+            exit_filters = self.exit_filters.to_dict()
+
         allow_reenrollment = self.allow_reenrollment
 
         reenrollment_cooldown_seconds = self.reenrollment_cooldown_seconds
@@ -158,6 +167,8 @@ class CreateAutomationBody:
             field_dict["exit_events"] = exit_events
         if exit_event is not UNSET:
             field_dict["exit_event"] = exit_event
+        if exit_filters is not UNSET:
+            field_dict["exit_filters"] = exit_filters
         if allow_reenrollment is not UNSET:
             field_dict["allow_reenrollment"] = allow_reenrollment
         if reenrollment_cooldown_seconds is not UNSET:
@@ -172,6 +183,7 @@ class CreateAutomationBody:
         from ..models.automations_post_request_body_content_application_json_trigger_filter_variant_0_item import (
             AutomationsPostRequestBodyContentApplicationJsonTriggerFilterVariant0Item,
         )
+        from ..models.create_automation_body_exit_filters import CreateAutomationBodyExitFilters
         from ..models.create_automation_schema_0 import CreateAutomationSchema0
         from ..models.create_automation_schema_1_variant_0 import CreateAutomationSchema1Variant0
         from ..models.create_automation_schema_1_variant_1 import CreateAutomationSchema1Variant1
@@ -228,6 +240,13 @@ class CreateAutomationBody:
         exit_events = cast(list[str], d.pop("exit_events", UNSET))
 
         exit_event = d.pop("exit_event", UNSET)
+
+        _exit_filters = d.pop("exit_filters", UNSET)
+        exit_filters: CreateAutomationBodyExitFilters | Unset
+        if isinstance(_exit_filters, Unset):
+            exit_filters = UNSET
+        else:
+            exit_filters = CreateAutomationBodyExitFilters.from_dict(_exit_filters)
 
         allow_reenrollment = d.pop("allow_reenrollment", UNSET)
 
@@ -353,6 +372,7 @@ class CreateAutomationBody:
             exclusive=exclusive,
             exit_events=exit_events,
             exit_event=exit_event,
+            exit_filters=exit_filters,
             allow_reenrollment=allow_reenrollment,
             reenrollment_cooldown_seconds=reenrollment_cooldown_seconds,
             steps=steps,

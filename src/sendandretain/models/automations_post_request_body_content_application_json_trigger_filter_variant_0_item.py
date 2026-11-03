@@ -18,9 +18,10 @@ T = TypeVar("T", bound="AutomationsPostRequestBodyContentApplicationJsonTriggerF
 class AutomationsPostRequestBodyContentApplicationJsonTriggerFilterVariant0Item:
     """
     Attributes:
-        path (str): contact.attributes.<key>, contact.engagement.<key>, contact.subscriptionStatus, or
-            event.properties.<key> (bare = event property). Engagement fields: emailsReceived, emailsSinceEngaged,
-            daysSinceEngaged, openCount, clickCount, openRate, clickRate, lastOpenedAt, lastClickedAt.
+        path (str): contact.attributes.<key>, contact.engagement.<key>, contact.subscriptionStatus, contact.tags (with
+            op contains / not_contains and a tag as value), or event.properties.<key> (bare = event property). Engagement
+            fields: emailsReceived, emailsSinceEngaged, daysSinceEngaged, openCount, clickCount, openRate, clickRate,
+            lastOpenedAt, lastClickedAt.
         op (AutomationsPostRequestBodyContentApplicationJsonTriggerFilterVariant0ItemOp | Unset):  Default:
             AutomationsPostRequestBodyContentApplicationJsonTriggerFilterVariant0ItemOp.EQ.
         value (Any | Unset):

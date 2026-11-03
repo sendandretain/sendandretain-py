@@ -20,11 +20,14 @@ class UpdateTemplateMetaBody:
         preview_text (str | Unset): Inbox preview text (the preheader). Rewrites the template's `<Preview>` line. Pass
             `""` to clear it.
         sender_id (None | Unset | UUID): Sender identity for this template. `null` resets to the project default sender.
+        description (str | Unset): What the template is for, shown in listings. Not versioned — it changes in place.
+            `""` clears it.
     """
 
     subject: str | Unset = UNSET
     preview_text: str | Unset = UNSET
     sender_id: None | Unset | UUID = UNSET
+    description: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -40,6 +43,8 @@ class UpdateTemplateMetaBody:
         else:
             sender_id = self.sender_id
 
+        description = self.description
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -49,6 +54,8 @@ class UpdateTemplateMetaBody:
             field_dict["preview_text"] = preview_text
         if sender_id is not UNSET:
             field_dict["sender_id"] = sender_id
+        if description is not UNSET:
+            field_dict["description"] = description
 
         return field_dict
 
@@ -76,10 +83,13 @@ class UpdateTemplateMetaBody:
 
         sender_id = _parse_sender_id(d.pop("sender_id", UNSET))
 
+        description = d.pop("description", UNSET)
+
         update_template_meta_body = cls(
             subject=subject,
             preview_text=preview_text,
             sender_id=sender_id,
+            description=description,
         )
 
         update_template_meta_body.additional_properties = d

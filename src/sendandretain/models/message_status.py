@@ -11,6 +11,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.message_status_events_item import MessageStatusEventsItem
+    from ..models.message_status_wire_type_0 import MessageStatusWireType0
 
 
 T = TypeVar("T", bound="MessageStatus")
@@ -35,8 +36,15 @@ class MessageStatus:
         ab_variant (None | str | Unset):
         scheduled_at (datetime.datetime | None | Unset):
         sent_at (datetime.datetime | None | Unset):
+        delivered_at (datetime.datetime | None | Unset):
+        bounce_type (None | str | Unset): Set on a bounced message, e.g. `hard` or `soft`.
         created_at (datetime.datetime | Unset):
-        events (list[MessageStatusEventsItem] | Unset): Provider events for this message, oldest first (max 100).
+        wire (MessageStatusWireType0 | None | Unset): The message as the provider received it, for a message that went
+            out (null otherwise). `headers` always — including `List-Unsubscribe` and `List-Unsubscribe-Post`; `subject`,
+            `html` and `text` with `?include=body`. Bodies are not archived: this is rebuilt from the stored version and
+            props with the project's CURRENT settings (`reconstructed: true`, explained in `note`).
+        events (list[MessageStatusEventsItem] | Unset): Events for this message, oldest first (max 100). `sent` and
+            `delivered` are filled in from the message itself when no event row records them.
     """
 
     id: str | Unset = UNSET
@@ -54,11 +62,16 @@ class MessageStatus:
     ab_variant: None | str | Unset = UNSET
     scheduled_at: datetime.datetime | None | Unset = UNSET
     sent_at: datetime.datetime | None | Unset = UNSET
+    delivered_at: datetime.datetime | None | Unset = UNSET
+    bounce_type: None | str | Unset = UNSET
     created_at: datetime.datetime | Unset = UNSET
+    wire: MessageStatusWireType0 | None | Unset = UNSET
     events: list[MessageStatusEventsItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.message_status_wire_type_0 import MessageStatusWireType0
+
         id = self.id
 
         to = self.to
@@ -129,9 +142,31 @@ class MessageStatus:
         else:
             sent_at = self.sent_at
 
+        delivered_at: None | str | Unset
+        if isinstance(self.delivered_at, Unset):
+            delivered_at = UNSET
+        elif isinstance(self.delivered_at, datetime.datetime):
+            delivered_at = self.delivered_at.isoformat()
+        else:
+            delivered_at = self.delivered_at
+
+        bounce_type: None | str | Unset
+        if isinstance(self.bounce_type, Unset):
+            bounce_type = UNSET
+        else:
+            bounce_type = self.bounce_type
+
         created_at: str | Unset = UNSET
         if not isinstance(self.created_at, Unset):
             created_at = self.created_at.isoformat()
+
+        wire: dict[str, Any] | None | Unset
+        if isinstance(self.wire, Unset):
+            wire = UNSET
+        elif isinstance(self.wire, MessageStatusWireType0):
+            wire = self.wire.to_dict()
+        else:
+            wire = self.wire
 
         events: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.events, Unset):
@@ -173,8 +208,14 @@ class MessageStatus:
             field_dict["scheduled_at"] = scheduled_at
         if sent_at is not UNSET:
             field_dict["sent_at"] = sent_at
+        if delivered_at is not UNSET:
+            field_dict["delivered_at"] = delivered_at
+        if bounce_type is not UNSET:
+            field_dict["bounce_type"] = bounce_type
         if created_at is not UNSET:
             field_dict["created_at"] = created_at
+        if wire is not UNSET:
+            field_dict["wire"] = wire
         if events is not UNSET:
             field_dict["events"] = events
 
@@ -183,6 +224,7 @@ class MessageStatus:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.message_status_events_item import MessageStatusEventsItem
+        from ..models.message_status_wire_type_0 import MessageStatusWireType0
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)
@@ -294,12 +336,55 @@ class MessageStatus:
 
         sent_at = _parse_sent_at(d.pop("sent_at", UNSET))
 
+        def _parse_delivered_at(data: object) -> datetime.datetime | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                delivered_at_type_0 = datetime.datetime.fromisoformat(data)
+
+                return delivered_at_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(datetime.datetime | None | Unset, data)
+
+        delivered_at = _parse_delivered_at(d.pop("delivered_at", UNSET))
+
+        def _parse_bounce_type(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        bounce_type = _parse_bounce_type(d.pop("bounce_type", UNSET))
+
         _created_at = d.pop("created_at", UNSET)
         created_at: datetime.datetime | Unset
         if isinstance(_created_at, Unset):
             created_at = UNSET
         else:
             created_at = datetime.datetime.fromisoformat(_created_at)
+
+        def _parse_wire(data: object) -> MessageStatusWireType0 | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                wire_type_0 = MessageStatusWireType0.from_dict(data)
+
+                return wire_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(MessageStatusWireType0 | None | Unset, data)
+
+        wire = _parse_wire(d.pop("wire", UNSET))
 
         _events = d.pop("events", UNSET)
         events: list[MessageStatusEventsItem] | Unset = UNSET
@@ -326,7 +411,10 @@ class MessageStatus:
             ab_variant=ab_variant,
             scheduled_at=scheduled_at,
             sent_at=sent_at,
+            delivered_at=delivered_at,
+            bounce_type=bounce_type,
             created_at=created_at,
+            wire=wire,
             events=events,
         )
 

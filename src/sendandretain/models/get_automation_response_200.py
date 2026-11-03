@@ -10,7 +10,12 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.get_automation_response_200_exit_filters import GetAutomationResponse200ExitFilters
+    from ..models.get_automation_response_200_settings import GetAutomationResponse200Settings
     from ..models.get_automation_response_200_steps_item import GetAutomationResponse200StepsItem
+    from ..models.get_automation_response_200_trigger_schedule_type_0 import (
+        GetAutomationResponse200TriggerScheduleType0,
+    )
 
 
 T = TypeVar("T", bound="GetAutomationResponse200")
@@ -29,7 +34,14 @@ class GetAutomationResponse200:
         exclusive (bool | Unset):
         exit_events (list[str] | Unset):
         exit_event (None | str | Unset):
+        exit_filters (GetAutomationResponse200ExitFilters | Unset): Per-exit filters keyed by exit event name. An exit
+            listed here ends a run only when the event matches its filter; an exit not listed matches on its name alone.
+        bypass_frequency_cap (bool | Unset): True when this automation is exempt from the project's per-contact
+            frequency cap.
         allow_reenrollment (bool | Unset):
+        reenrollment_cooldown_seconds (int | Unset):
+        trigger_schedule (GetAutomationResponse200TriggerScheduleType0 | None | Unset):
+        settings (GetAutomationResponse200Settings | Unset):
         created_at (datetime.datetime | Unset):
         updated_at (datetime.datetime | Unset):
         steps (list[GetAutomationResponse200StepsItem] | Unset):
@@ -44,13 +56,22 @@ class GetAutomationResponse200:
     exclusive: bool | Unset = UNSET
     exit_events: list[str] | Unset = UNSET
     exit_event: None | str | Unset = UNSET
+    exit_filters: GetAutomationResponse200ExitFilters | Unset = UNSET
+    bypass_frequency_cap: bool | Unset = UNSET
     allow_reenrollment: bool | Unset = UNSET
+    reenrollment_cooldown_seconds: int | Unset = UNSET
+    trigger_schedule: GetAutomationResponse200TriggerScheduleType0 | None | Unset = UNSET
+    settings: GetAutomationResponse200Settings | Unset = UNSET
     created_at: datetime.datetime | Unset = UNSET
     updated_at: datetime.datetime | Unset = UNSET
     steps: list[GetAutomationResponse200StepsItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.get_automation_response_200_trigger_schedule_type_0 import (
+            GetAutomationResponse200TriggerScheduleType0,
+        )
+
         id = self.id
 
         name = self.name
@@ -75,7 +96,27 @@ class GetAutomationResponse200:
         else:
             exit_event = self.exit_event
 
+        exit_filters: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.exit_filters, Unset):
+            exit_filters = self.exit_filters.to_dict()
+
+        bypass_frequency_cap = self.bypass_frequency_cap
+
         allow_reenrollment = self.allow_reenrollment
+
+        reenrollment_cooldown_seconds = self.reenrollment_cooldown_seconds
+
+        trigger_schedule: dict[str, Any] | None | Unset
+        if isinstance(self.trigger_schedule, Unset):
+            trigger_schedule = UNSET
+        elif isinstance(self.trigger_schedule, GetAutomationResponse200TriggerScheduleType0):
+            trigger_schedule = self.trigger_schedule.to_dict()
+        else:
+            trigger_schedule = self.trigger_schedule
+
+        settings: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.settings, Unset):
+            settings = self.settings.to_dict()
 
         created_at: str | Unset = UNSET
         if not isinstance(self.created_at, Unset):
@@ -113,8 +154,18 @@ class GetAutomationResponse200:
             field_dict["exit_events"] = exit_events
         if exit_event is not UNSET:
             field_dict["exit_event"] = exit_event
+        if exit_filters is not UNSET:
+            field_dict["exit_filters"] = exit_filters
+        if bypass_frequency_cap is not UNSET:
+            field_dict["bypass_frequency_cap"] = bypass_frequency_cap
         if allow_reenrollment is not UNSET:
             field_dict["allow_reenrollment"] = allow_reenrollment
+        if reenrollment_cooldown_seconds is not UNSET:
+            field_dict["reenrollment_cooldown_seconds"] = reenrollment_cooldown_seconds
+        if trigger_schedule is not UNSET:
+            field_dict["trigger_schedule"] = trigger_schedule
+        if settings is not UNSET:
+            field_dict["settings"] = settings
         if created_at is not UNSET:
             field_dict["created_at"] = created_at
         if updated_at is not UNSET:
@@ -126,7 +177,12 @@ class GetAutomationResponse200:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.get_automation_response_200_exit_filters import GetAutomationResponse200ExitFilters
+        from ..models.get_automation_response_200_settings import GetAutomationResponse200Settings
         from ..models.get_automation_response_200_steps_item import GetAutomationResponse200StepsItem
+        from ..models.get_automation_response_200_trigger_schedule_type_0 import (
+            GetAutomationResponse200TriggerScheduleType0,
+        )
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)
@@ -154,7 +210,42 @@ class GetAutomationResponse200:
 
         exit_event = _parse_exit_event(d.pop("exit_event", UNSET))
 
+        _exit_filters = d.pop("exit_filters", UNSET)
+        exit_filters: GetAutomationResponse200ExitFilters | Unset
+        if isinstance(_exit_filters, Unset):
+            exit_filters = UNSET
+        else:
+            exit_filters = GetAutomationResponse200ExitFilters.from_dict(_exit_filters)
+
+        bypass_frequency_cap = d.pop("bypass_frequency_cap", UNSET)
+
         allow_reenrollment = d.pop("allow_reenrollment", UNSET)
+
+        reenrollment_cooldown_seconds = d.pop("reenrollment_cooldown_seconds", UNSET)
+
+        def _parse_trigger_schedule(data: object) -> GetAutomationResponse200TriggerScheduleType0 | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                trigger_schedule_type_0 = GetAutomationResponse200TriggerScheduleType0.from_dict(data)
+
+                return trigger_schedule_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(GetAutomationResponse200TriggerScheduleType0 | None | Unset, data)
+
+        trigger_schedule = _parse_trigger_schedule(d.pop("trigger_schedule", UNSET))
+
+        _settings = d.pop("settings", UNSET)
+        settings: GetAutomationResponse200Settings | Unset
+        if isinstance(_settings, Unset):
+            settings = UNSET
+        else:
+            settings = GetAutomationResponse200Settings.from_dict(_settings)
 
         _created_at = d.pop("created_at", UNSET)
         created_at: datetime.datetime | Unset
@@ -189,7 +280,12 @@ class GetAutomationResponse200:
             exclusive=exclusive,
             exit_events=exit_events,
             exit_event=exit_event,
+            exit_filters=exit_filters,
+            bypass_frequency_cap=bypass_frequency_cap,
             allow_reenrollment=allow_reenrollment,
+            reenrollment_cooldown_seconds=reenrollment_cooldown_seconds,
+            trigger_schedule=trigger_schedule,
+            settings=settings,
             created_at=created_at,
             updated_at=updated_at,
             steps=steps,

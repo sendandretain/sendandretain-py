@@ -9,6 +9,9 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.automations_id_patch_request_body_content_application_json_exit_filters_variant_0 import (
+        AutomationsIdPatchRequestBodyContentApplicationJsonExitFiltersVariant0,
+    )
     from ..models.automations_id_patch_request_body_content_application_json_trigger_filter_variant_0_variant_0_item import (
         AutomationsIdPatchRequestBodyContentApplicationJsonTriggerFilterVariant0Variant0Item,
     )
@@ -32,6 +35,8 @@ class UpdateAutomationBody:
             or null clears.
         exit_event (None | str | Unset): Deprecated single-event form, still accepted. Prefer `exit_events`. null
             clears.
+        exit_filters (AutomationsIdPatchRequestBodyContentApplicationJsonExitFiltersVariant0 | None | Unset):
+        bypass_frequency_cap (bool | Unset):
         allow_reenrollment (bool | Unset):
         reenrollment_cooldown_seconds (int | Unset):
     """
@@ -48,11 +53,16 @@ class UpdateAutomationBody:
     exclusive: bool | Unset = UNSET
     exit_events: list[str] | None | Unset = UNSET
     exit_event: None | str | Unset = UNSET
+    exit_filters: AutomationsIdPatchRequestBodyContentApplicationJsonExitFiltersVariant0 | None | Unset = UNSET
+    bypass_frequency_cap: bool | Unset = UNSET
     allow_reenrollment: bool | Unset = UNSET
     reenrollment_cooldown_seconds: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.automations_id_patch_request_body_content_application_json_exit_filters_variant_0 import (
+            AutomationsIdPatchRequestBodyContentApplicationJsonExitFiltersVariant0,
+        )
         from ..models.update_automation_schema_0 import UpdateAutomationSchema0
 
         name = self.name
@@ -94,6 +104,16 @@ class UpdateAutomationBody:
         else:
             exit_event = self.exit_event
 
+        exit_filters: dict[str, Any] | None | Unset
+        if isinstance(self.exit_filters, Unset):
+            exit_filters = UNSET
+        elif isinstance(self.exit_filters, AutomationsIdPatchRequestBodyContentApplicationJsonExitFiltersVariant0):
+            exit_filters = self.exit_filters.to_dict()
+        else:
+            exit_filters = self.exit_filters
+
+        bypass_frequency_cap = self.bypass_frequency_cap
+
         allow_reenrollment = self.allow_reenrollment
 
         reenrollment_cooldown_seconds = self.reenrollment_cooldown_seconds
@@ -115,6 +135,10 @@ class UpdateAutomationBody:
             field_dict["exit_events"] = exit_events
         if exit_event is not UNSET:
             field_dict["exit_event"] = exit_event
+        if exit_filters is not UNSET:
+            field_dict["exit_filters"] = exit_filters
+        if bypass_frequency_cap is not UNSET:
+            field_dict["bypass_frequency_cap"] = bypass_frequency_cap
         if allow_reenrollment is not UNSET:
             field_dict["allow_reenrollment"] = allow_reenrollment
         if reenrollment_cooldown_seconds is not UNSET:
@@ -124,6 +148,9 @@ class UpdateAutomationBody:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.automations_id_patch_request_body_content_application_json_exit_filters_variant_0 import (
+            AutomationsIdPatchRequestBodyContentApplicationJsonExitFiltersVariant0,
+        )
         from ..models.automations_id_patch_request_body_content_application_json_trigger_filter_variant_0_variant_0_item import (
             AutomationsIdPatchRequestBodyContentApplicationJsonTriggerFilterVariant0Variant0Item,
         )
@@ -211,6 +238,29 @@ class UpdateAutomationBody:
 
         exit_event = _parse_exit_event(d.pop("exit_event", UNSET))
 
+        def _parse_exit_filters(
+            data: object,
+        ) -> AutomationsIdPatchRequestBodyContentApplicationJsonExitFiltersVariant0 | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                exit_filters_type_0 = AutomationsIdPatchRequestBodyContentApplicationJsonExitFiltersVariant0.from_dict(
+                    data
+                )
+
+                return exit_filters_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(AutomationsIdPatchRequestBodyContentApplicationJsonExitFiltersVariant0 | None | Unset, data)
+
+        exit_filters = _parse_exit_filters(d.pop("exit_filters", UNSET))
+
+        bypass_frequency_cap = d.pop("bypass_frequency_cap", UNSET)
+
         allow_reenrollment = d.pop("allow_reenrollment", UNSET)
 
         reenrollment_cooldown_seconds = d.pop("reenrollment_cooldown_seconds", UNSET)
@@ -223,6 +273,8 @@ class UpdateAutomationBody:
             exclusive=exclusive,
             exit_events=exit_events,
             exit_event=exit_event,
+            exit_filters=exit_filters,
+            bypass_frequency_cap=bypass_frequency_cap,
             allow_reenrollment=allow_reenrollment,
             reenrollment_cooldown_seconds=reenrollment_cooldown_seconds,
         )
